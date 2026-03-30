@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sell Your House Fast — Properties714</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header class="site-nav scrolled" id="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="logo-mark">P</span><span class="logo-seven">7</span><span class="logo-text">Properties714</span></a>
+    <nav class="nav-links"><a href="/sell.html" style="color:var(--gold)">Sell your house</a><a href="/properties.html">Properties</a><a href="/investors.html">Investors</a><a href="/blog.html">Blog</a><a href="/about.html">About</a></nav>
+    <div class="nav-right"><a href="tel:4045901613" class="nav-phone">📞 (404) 590-1613</a><a href="/sell.html" class="btn-gold">Get cash offer</a></div>
+    <button class="nav-hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu"><a href="/sell.html">Sell your house</a><a href="/properties.html">Properties</a><a href="/investors.html">Investors</a><a href="/blog.html">Blog</a><a href="/about.html">About</a></div>
+</header>
+
+<div class="page-hero">
+  <div class="section-inner">
+    <div class="eyebrow">Sell your house</div>
+    <h1>Get a fair cash offer<br><em>in 24 hours.</em></h1>
+    <p>No repairs, no showings, no commissions. We buy houses in any condition across Georgia. You pick the closing date.</p>
+  </div>
+</div>
+
+<section class="form-section">
+  <div class="section-inner" style="display:grid;grid-template-columns:1fr 400px;gap:64px;align-items:start">
+    <div class="form-card">
+      <h2 style="font-size:26px;margin-bottom:8px">Request your cash offer</h2>
+      <p style="font-size:14px;color:var(--cream-2);margin-bottom:32px">Fill out the form and we'll contact you within 24 hours with a no-obligation cash offer.</p>
+      <form onsubmit="handleForm(event)">
+        <div class="form-grid">
+          <div class="form-field full"><label>Property address *</label><input type="text" placeholder="1234 Peachtree Blvd, Atlanta, GA 30309" required /></div>
+          <div class="form-field"><label>Your name *</label><input type="text" placeholder="John Smith" required /></div>
+          <div class="form-field"><label>Phone *</label><input type="tel" placeholder="(404) 555-0000" required /></div>
+          <div class="form-field"><label>Email</label><input type="email" placeholder="john@email.com" /></div>
+          <div class="form-field"><label>Situation</label>
+            <select><option value="">Select your situation</option><option>Need to sell quickly</option><option>Behind on payments</option><option>Inherited property</option><option>Relocating</option><option>Divorce</option><option>Tired landlord</option><option>Property needs repairs</option><option>Other</option></select>
+          </div>
+          <div class="form-field full"><label>Additional notes</label><textarea placeholder="Tell us anything else we should know about the property..."></textarea></div>
+          <div class="form-submit-wrap">
+            <button type="submit" class="btn-gold btn-full" style="height:52px;font-size:16px">Get my free cash offer →</button>
+            <p class="form-note">🔒 We respect your privacy. No spam, ever. No obligation.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:24px;padding-top:8px">
+      <div style="background:var(--bg-card);border:1px solid var(--gold-border);border-radius:var(--radius-lg);padding:28px">
+        <div class="eyebrow" style="margin-bottom:16px">Why choose us</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;font-size:14px">✓</div>
+            <div><div style="font-size:14px;font-weight:500;color:var(--cream);margin-bottom:2px">Any condition, any situation</div><div style="font-size:13px;color:var(--muted)">Inherited, distressed, foreclosure — we buy them all</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;font-size:14px">✓</div>
+            <div><div style="font-size:14px;font-weight:500;color:var(--cream);margin-bottom:2px">No fees or commissions</div><div style="font-size:13px;color:var(--muted)">Our offer is what you receive — zero deductions</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;font-size:14px">✓</div>
+            <div><div style="font-size:14px;font-weight:500;color:var(--cream);margin-bottom:2px">Close in as little as 7 days</div><div style="font-size:13px;color:var(--muted)">Or on any date that works for your timeline</div></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <div style="width:32px;height:32px;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;font-size:14px">✓</div>
+            <div><div style="font-size:14px;font-weight:500;color:var(--cream);margin-bottom:2px">Trusted local buyer</div><div style="font-size:13px;color:var(--muted)">100+ homes purchased across Georgia</div></div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:24px;text-align:center">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:8px;font-family:var(--font-mono)">Prefer to call?</div>
+        <a href="tel:4045901613" style="font-family:var(--font-serif);font-size:28px;font-weight:600;color:var(--gold)">(404) 590-1613</a>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">Mon–Sat · 8am–7pm EST</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><div class="footer-logo">Properties<span>714</span></div><p class="footer-tagline">Serious About Buying.<br>Serious About Closing.</p><div class="footer-contact"><a href="tel:4045901613">(404) 590-1613</a><span>📍 Serving all of Georgia</span></div></div>
+    <div class="footer-col"><div class="footer-col-title">Sellers</div><a href="/sell.html">Get cash offer</a><a href="/#how-it-works">How it works</a></div>
+    <div class="footer-col"><div class="footer-col-title">Investors</div><a href="/properties.html">Properties</a><a href="/investors.html">Investor list</a></div>
+    <div class="footer-col"><div class="footer-col-title">Company</div><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/contact.html">Contact</a></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Properties714 LLC · All Rights Reserved</span><span>Georgia</span></div>
+</footer>
+<script>
+function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');btn.textContent='✓ Received! We\'ll call you within 24h';btn.style.background='#1a5c38';btn.disabled=true;}
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+</script>
+</body></html>

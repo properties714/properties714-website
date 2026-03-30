@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Properties714</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<header class="site-nav scrolled" id="site-nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="logo-mark">P</span><span class="logo-seven">7</span><span class="logo-text">Properties714</span></a>
+    <nav class="nav-links"><a href="/sell.html">Sell your house</a><a href="/properties.html">Properties</a><a href="/investors.html">Investors</a><a href="/blog.html">Blog</a><a href="/about.html">About</a></nav>
+    <div class="nav-right"><a href="tel:4045901613" class="nav-phone">📞 (404) 590-1613</a><a href="/sell.html" class="btn-gold">Get cash offer</a></div>
+    <button class="nav-hamburger" id="hamburger">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu"><a href="/sell.html">Sell your house</a><a href="/properties.html">Properties</a><a href="/investors.html">Investors</a><a href="/blog.html">Blog</a><a href="/about.html">About</a></div>
+</header>
+
+<div class="page-hero">
+  <div class="section-inner">
+    <div class="eyebrow">Contact</div>
+    <h1>Let's <em>talk.</em></h1>
+    <p>Have a question? Ready to sell or invest? Reach out and we'll get back to you within 24 hours.</p>
+  </div>
+</div>
+
+<section class="form-section">
+  <div class="section-inner" style="display:grid;grid-template-columns:1fr 320px;gap:64px;align-items:start">
+    <div class="form-card">
+      <h2 style="font-size:24px;margin-bottom:24px">Send us a message</h2>
+      <form onsubmit="handleForm(event)">
+        <div class="form-grid">
+          <div class="form-field"><label>Name *</label><input type="text" placeholder="Your name" required /></div>
+          <div class="form-field"><label>Phone</label><input type="tel" placeholder="(404) 555-0000" /></div>
+          <div class="form-field full"><label>Email *</label><input type="email" placeholder="your@email.com" required /></div>
+          <div class="form-field full"><label>How can we help?</label>
+            <select><option value="">Select topic</option><option>I want to sell my house</option><option>I'm looking to buy a property</option><option>I'm a real estate investor</option><option>General question</option></select>
+          </div>
+          <div class="form-field full"><label>Message *</label><textarea placeholder="Tell us how we can help..." required></textarea></div>
+          <div class="form-submit-wrap"><button type="submit" class="btn-gold btn-full" style="height:52px;font-size:16px">Send message →</button><p class="form-note">🔒 We'll respond within 24 hours.</p></div>
+        </div>
+      </form>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div style="background:var(--bg-card);border:1px solid var(--gold-border);border-radius:var(--radius-lg);padding:28px">
+        <div class="eyebrow" style="margin-bottom:16px">Direct contact</div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div><div style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-bottom:4px">Phone</div><a href="tel:4045901613" style="font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--gold)">(404) 590-1613</a><div style="font-size:12px;color:var(--muted);margin-top:2px">Mon–Sat · 8am–7pm EST</div></div>
+          <div><div style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-bottom:4px">Location</div><div style="font-size:14px;color:var(--cream-2)">📍 Serving all of Georgia</div></div>
+          <div><div style="font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-bottom:4px">Response time</div><div style="font-size:14px;color:var(--cream-2)">⚡ Within 24 hours</div></div>
+        </div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:24px">
+        <div style="font-size:13px;color:var(--cream-2);line-height:1.7">"Serious about buying. Serious about closing."<br><span style="font-size:12px;color:var(--muted)">— Properties714 LLC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><div class="footer-logo">Properties<span>714</span></div><p class="footer-tagline">Serious About Buying.<br>Serious About Closing.</p><div class="footer-contact"><a href="tel:4045901613">(404) 590-1613</a><span>📍 Serving all of Georgia</span></div></div><div class="footer-col"><div class="footer-col-title">Sellers</div><a href="/sell.html">Get cash offer</a></div><div class="footer-col"><div class="footer-col-title">Investors</div><a href="/properties.html">Properties</a><a href="/investors.html">Investor list</a></div><div class="footer-col"><div class="footer-col-title">Company</div><a href="/about.html">About</a><a href="/blog.html">Blog</a></div></div><div class="footer-bottom"><span>© 2026 Properties714 LLC</span></div></footer>
+<script>
+function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');btn.textContent='✓ Message sent! We\'ll be in touch.';btn.style.background='#1a5c38';btn.disabled=true;}
+document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+</script>
+</body></html>
