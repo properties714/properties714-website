@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Properties714</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #0e0d0a;
+      --surface: #16150f;
+      --card:    #1d1c14;
+      --border:  rgba(201,168,76,0.18);
+      --border2: rgba(255,255,255,0.07);
+      --gold:    #c9a84c;
+      --gold-d:  rgba(201,168,76,0.12);
+      --cream:   #f0ebe0;
+      --muted:   #6a6458;
+      --dim:     #3a3830;
+      --danger:  #e05252;
+      --success: #4caf7d;
+      --mono:    'DM Mono', monospace;
+      --sans:    'Inter', sans-serif;
+      --r:       8px;
+      --r-lg:    12px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:14px;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg);color:var(--cream);font-family:var(--sans);min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    input,select,textarea{font-family:var(--sans);font-size:13px}
+
+    /* LOGIN */
+    #login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+    .login-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:48px;width:360px;text-align:center}
+    .login-logo{font-size:32px;font-weight:600;color:var(--gold);margin-bottom:4px;font-family:'Georgia',serif}
+    .login-sub{font-size:12px;color:var(--muted);font-family:var(--mono);margin-bottom:32px}
+    .login-box input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r);padding:12px 14px;color:var(--cream);font-size:14px;outline:none;margin-bottom:12px;text-align:center;letter-spacing:0.1em}
+    .login-box input:focus{border-color:var(--border)}
+    .login-box button{width:100%;background:var(--gold);color:#0e0d0a;border:none;border-radius:var(--r);padding:13px;font-size:14px;font-weight:600;cursor:pointer}
+    .login-err{font-size:12px;color:var(--danger);margin-top:8px;min-height:16px}
+
+    /* SHELL */
+    #app{display:none;min-height:100vh;display:grid;grid-template-columns:220px 1fr;grid-template-rows:52px 1fr}
+    #topbar{grid-column:1/-1;background:var(--surface);border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+    .topbar-logo{font-size:16px;font-weight:600;color:var(--gold);font-family:'Georgia',serif}
+    .topbar-right{display:flex;align-items:center;gap:16px}
+    .topbar-site{font-size:12px;color:var(--muted);font-family:var(--mono)}
+    .topbar-site a{color:var(--gold)}
+    .btn-logout{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--muted);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer}
+    .btn-logout:hover{color:var(--cream);border-color:rgba(255,255,255,0.2)}
+
+    /* SIDEBAR */
+    #sidebar{background:var(--surface);border-right:1px solid var(--border2);padding:16px 0;overflow-y:auto}
+    .nav-section{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim);padding:0 16px;margin:16px 0 6px}
+    .nav-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:13px;color:var(--muted);cursor:pointer;border-radius:0;transition:background 150ms,color 150ms;margin:1px 8px;border-radius:6px}
+    .nav-item:hover{background:rgba(255,255,255,0.04);color:var(--cream)}
+    .nav-item.active{background:var(--gold-d);color:var(--gold)}
+    .nav-icon{width:16px;text-align:center;flex-shrink:0}
+
+    /* MAIN */
+    #main{overflow-y:auto;padding:32px}
+    .tab{display:none}
+    .tab.active{display:block}
+    .page-title{font-size:22px;font-weight:600;color:var(--cream);margin-bottom:6px}
+    .page-sub{font-size:13px;color:var(--muted);margin-bottom:28px}
+
+    /* CARDS */
+    .card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r-lg);padding:24px;margin-bottom:20px}
+    .card-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);margin-bottom:16px;font-family:var(--mono)}
+    .card-featured{border-color:var(--border)}
+
+    /* FORM */
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+    .form-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+    .form-row.full{grid-template-columns:1fr}
+    .form-field{display:flex;flex-direction:column;gap:5px}
+    .form-field label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-family:var(--mono)}
+    .form-field input,.form-field select,.form-field textarea{
+      background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+      border-radius:var(--r);padding:9px 12px;color:var(--cream);font-size:13px;outline:none;transition:border-color 200ms;width:100%;
+    }
+    .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--border)}
+    .form-field input::placeholder,.form-field textarea::placeholder{color:var(--dim)}
+    .form-field select option{background:var(--card)}
+    .form-field textarea{resize:vertical;min-height:80px;line-height:1.6}
+    .field-help{font-size:11px;color:var(--dim);margin-top:3px}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:var(--r);padding:9px 18px;font-size:13px;font-weight:500;cursor:pointer;transition:all 150ms;font-family:var(--sans);white-space:nowrap}
+    .btn-primary{background:var(--gold);color:#0e0d0a}
+    .btn-primary:hover{background:#e8c97a;transform:translateY(-1px)}
+    .btn-secondary{background:rgba(255,255,255,0.06);color:var(--cream);border:1px solid rgba(255,255,255,0.1)}
+    .btn-secondary:hover{background:rgba(255,255,255,0.1)}
+    .btn-danger{background:rgba(224,82,82,0.12);color:var(--danger);border:1px solid rgba(224,82,82,0.25)}
+    .btn-danger:hover{background:var(--danger);color:#fff}
+    .btn-sm{padding:6px 12px;font-size:12px}
+    .btn-success{background:rgba(76,175,125,0.12);color:var(--success);border:1px solid rgba(76,175,125,0.25)}
+    .btn-success:hover{background:var(--success);color:#fff}
+
+    /* SAVE BAR */
+    .save-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding:16px 20px;background:rgba(201,168,76,0.06);border:1px solid var(--border);border-radius:var(--r);}
+    .save-hint{font-size:12px;color:var(--muted);font-family:var(--mono)}
+    .save-toast{font-size:12px;color:var(--success);font-family:var(--mono);display:none}
+
+    /* TABLE */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-family:var(--mono);padding:10px 12px;border-bottom:1px solid var(--border2);text-align:left}
+    td{padding:12px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--cream);vertical-align:top}
+    tr:hover td{background:rgba(255,255,255,0.02)}
+    .td-img{width:60px;height:44px;border-radius:5px;overflow:hidden;background:var(--surface)}
+    .td-img img{width:100%;height:100%;object-fit:cover}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;font-family:var(--mono)}
+    .badge-avail{background:rgba(76,175,125,0.15);color:#4caf7d}
+    .badge-contract{background:var(--gold-d);color:var(--gold)}
+    .badge-sold{background:rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* PROP FORM */
+    .prop-form-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-top:20px;display:none}
+    .prop-form-wrap.open{display:block}
+    .prop-form-title{font-size:15px;font-weight:600;margin-bottom:20px;color:var(--cream)}
+    .prop-img-preview{width:100%;height:140px;border-radius:var(--r);overflow:hidden;background:var(--card);border:1px solid var(--border2);margin-top:6px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px}
+    .prop-img-preview img{width:100%;height:100%;object-fit:cover}
+
+    /* DASHBOARD STATS */
+    .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+    .dash-stat{background:var(--card);border:1px solid var(--border2);border-radius:var(--r-lg);padding:20px}
+    .ds-val{font-size:28px;font-weight:600;color:var(--gold);font-family:'Georgia',serif;margin:4px 0}
+    .ds-lbl{font-size:11px;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em}
+    .ds-icon{font-size:18px;margin-bottom:4px}
+
+    /* DIVIDER */
+    .divider{height:1px;background:var(--border2);margin:20px 0}
+
+    /* IMAGE PREVIEW */
+    .img-preview-sm{width:100%;height:80px;border-radius:5px;overflow:hidden;background:var(--card);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;margin-top:4px}
+    .img-preview-sm img{width:100%;height:100%;object-fit:cover}
+
+    /* ALERT */
+    .alert{padding:12px 16px;border-radius:var(--r);font-size:13px;margin-bottom:16px}
+    .alert-info{background:var(--gold-d);border:1px solid var(--border);color:var(--cream)}
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">P714</div>
+    <div class="login-sub">Admin Panel</div>
+    <input type="password" id="pw-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button onclick="doLogin()">Sign in</button>
+    <div class="login-err" id="login-err"></div>
+    <div style="font-size:11px;color:var(--dim);margin-top:20px;font-family:var(--mono)">Default password: p714admin</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+  <!-- TOPBAR -->
+  <div id="topbar">
+    <div class="topbar-logo">Properties714 — Admin</div>
+    <div class="topbar-right">
+      <span class="topbar-site">Site: <a href="/" target="_blank">properties714.com</a></span>
+      <button class="btn-logout" onclick="doLogout()">Sign out</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" data-tab="dashboard" onclick="switchTab(this)">
+      <span class="nav-icon">🏠</span> Dashboard
+    </div>
+    <div class="nav-section">Content</div>
+    <div class="nav-item" data-tab="siteconfig" onclick="switchTab(this)">
+      <span class="nav-icon">⚙️</span> Site Config
+    </div>
+    <div class="nav-item" data-tab="hero" onclick="switchTab(this)">
+      <span class="nav-icon">🎥</span> Hero & Video
+    </div>
+    <div class="nav-item" data-tab="properties" onclick="switchTab(this)">
+      <span class="nav-icon">🏡</span> Properties
+    </div>
+    <div class="nav-item" data-tab="testimonials" onclick="switchTab(this)">
+      <span class="nav-icon">⭐</span> Testimonials
+    </div>
+    <div class="nav-item" data-tab="stats" onclick="switchTab(this)">
+      <span class="nav-icon">📊</span> Stats Bar
+    </div>
+    <div class="nav-section">System</div>
+    <div class="nav-item" data-tab="security" onclick="switchTab(this)">
+      <span class="nav-icon">🔒</span> Security
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- DASHBOARD -->
+    <div class="tab active" id="tab-dashboard">
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">Overview of your website content</div>
+      <div class="dash-grid" id="dash-stats"></div>
+      <div class="card">
+        <div class="card-title">Quick actions</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="switchTabById('hero')">&#9654; Update video</button>
+          <button class="btn btn-secondary" onclick="switchTabById('properties')">+ Add property</button>
+          <button class="btn btn-secondary" onclick="switchTabById('siteconfig')">Edit phone number</button>
+          <button class="btn btn-secondary" onclick="window.open('/','_blank')">View website ↗</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">How to use this admin</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)">
+          <div>→ <strong style="color:var(--cream)">Site Config</strong> — Change phone number, email, address, contact info</div>
+          <div>→ <strong style="color:var(--cream)">Hero &amp; Video</strong> — Update the YouTube video ID and hero headline text</div>
+          <div>→ <strong style="color:var(--cream)">Properties</strong> — Add, edit, or remove property listings with photos</div>
+          <div>→ <strong style="color:var(--cream)">Testimonials</strong> — Manage seller reviews and quotes</div>
+          <div>→ <strong style="color:var(--cream)">Stats Bar</strong> — Update the numbers shown below the hero (homes purchased, etc.)</div>
+          <div>→ <strong style="color:var(--cream)">Security</strong> — Change your admin password</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITE CONFIG -->
+    <div class="tab" id="tab-siteconfig">
+      <div class="page-title">Site Config</div>
+      <div class="page-sub">Contact information and site-wide settings</div>
+
+      <div class="card card-featured">
+        <div class="card-title">Contact Info</div>
+        <div class="form-row">
+          <div class="form-field"><label>Phone number (raw)</label><input id="cfg-phone" placeholder="4045901613" /><div class="field-help">Numbers only, no spaces. Used for tel: links.</div></div>
+          <div class="form-field"><label>Phone display</label><input id="cfg-phone-display" placeholder="(404) 590-1613" /><div class="field-help">Shown to visitors on the site.</div></div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label>Email address</label><input id="cfg-email" type="email" placeholder="info@properties714.com" /></div>
+          <div class="form-field"><label>Business hours</label><input id="cfg-hours" placeholder="Mon–Sat · 8am–7pm EST" /></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field"><label>Service area</label><input id="cfg-area" placeholder="Serving all of Georgia" /></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Footer Tagline</div>
+        <div class="form-row">
+          <div class="form-field"><label>Line 1</label><input id="cfg-tagline1" placeholder="Serious About Buying." /></div>
+          <div class="form-field"><label>Line 2</label><input id="cfg-tagline2" placeholder="Serious About Closing." /></div>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <span class="save-hint">🔒 Changes are saved locally and applied site-wide instantly.</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="save-toast" id="toast-siteconfig">✓ Saved!</span>
+          <button class="btn btn-primary" onclick="saveSection('siteconfig')">Save changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO & VIDEO -->
+    <div class="tab" id="tab-hero">
+      <div class="page-title">Hero &amp; Video</div>
+      <div class="page-sub">Update the homepage hero section and the YouTube video</div>
+
+      <div class="card card-featured">
+        <div class="card-title">🎥 YouTube Video</div>
+        <div class="alert alert-info">The video appears in the hero section of the homepage where the house photo used to be.</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>YouTube Video ID</label>
+            <input id="cfg-video-id" placeholder="dQw4w9WgXcQ" />
+            <div class="field-help">Find it in the YouTube URL: youtube.com/watch?v=<strong>THIS_PART</strong></div>
+          </div>
+          <div class="form-field">
+            <label>Video section label</label>
+            <input id="cfg-video-label" placeholder="Who we are" />
+            <div class="field-help">Small label shown above the video.</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:4px">
+          Example: if your video is youtube.com/watch?v=<span style="color:var(--gold)">abc123xyz</span>, enter <span style="color:var(--gold)">abc123xyz</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Hero Headline</div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Line 1</label><input id="cfg-hero-l1" placeholder="Sell your house" /></div>
+          <div class="form-field"><label>Line 2 (italic gold)</label><input id="cfg-hero-l2" placeholder="fast, as-is," /></div>
+          <div class="form-field"><label>Line 3</label><input id="cfg-hero-l3" placeholder="for cash." /></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field"><label>Hero subtitle</label><textarea id="cfg-hero-sub" rows="2" placeholder="No repairs. No commissions. No open houses. Close in as little as 7 days — you pick the date."></textarea></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field"><label>Badge text (pill above headline)</label><input id="cfg-hero-badge" placeholder="Georgia Real Estate Investors" /></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Trust checkmarks (3 items)</div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Item 1</label><input id="cfg-trust1" placeholder="No repairs needed" /></div>
+          <div class="form-field"><label>Item 2</label><input id="cfg-trust2" placeholder="Zero commissions or fees" /></div>
+          <div class="form-field"><label>Item 3</label><input id="cfg-trust3" placeholder="Close in as little as 7 days" /></div>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <span class="save-hint">📺 Paste your YouTube video ID and click Save.</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="save-toast" id="toast-hero">✓ Saved!</span>
+          <button class="btn btn-primary" onclick="saveSection('hero')">Save changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROPERTIES -->
+    <div class="tab" id="tab-properties">
+      <div class="page-title">Properties</div>
+      <div class="page-sub">Manage your property listings</div>
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+        <button class="btn btn-primary" onclick="openPropForm(null)">+ Add property</button>
+      </div>
+
+      <!-- PROP FORM -->
+      <div class="prop-form-wrap" id="prop-form-wrap">
+        <div class="prop-form-title" id="prop-form-title">Add property</div>
+        <input type="hidden" id="prop-edit-id" />
+        <div class="form-row">
+          <div class="form-field"><label>Price *</label><input id="pf-price" placeholder="$124,900" /></div>
+          <div class="form-field"><label>Status</label>
+            <select id="pf-status"><option value="avail">Available</option><option value="contract">Under Contract</option><option value="sold">Sold</option></select>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field"><label>Full address *</label><input id="pf-addr" placeholder="3847 Elm Street, Atlanta, GA 30310" /></div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Bedrooms</label><input id="pf-beds" placeholder="3" /></div>
+          <div class="form-field"><label>Bathrooms</label><input id="pf-baths" placeholder="2" /></div>
+          <div class="form-field"><label>Sqft</label><input id="pf-sqft" placeholder="1,240" /></div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>Photo URL</label>
+            <input id="pf-img" placeholder="https://..." oninput="previewPropImg()" />
+            <div class="field-help">Paste a direct image URL (Unsplash, your hosting, Google Drive public link, etc.)</div>
+            <div class="prop-img-preview" id="pf-img-preview"><span>Image preview</span></div>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field"><label>Description (optional)</label><textarea id="pf-desc" rows="2" placeholder="Additional details about the property..."></textarea></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn btn-primary" onclick="saveProp()">Save property</button>
+          <button class="btn btn-secondary" onclick="closePropForm()">Cancel</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="table-wrap">
+          <table id="prop-table">
+            <thead><tr><th>Photo</th><th>Price</th><th>Address</th><th>Specs</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="prop-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESTIMONIALS -->
+    <div class="tab" id="tab-testimonials">
+      <div class="page-title">Testimonials</div>
+      <div class="page-sub">Manage seller reviews and quotes</div>
+
+      <div id="testi-list"></div>
+
+      <div style="display:flex;justify-content:flex-end;margin-top:16px">
+        <button class="btn btn-primary" onclick="addTesti()">+ Add testimonial</button>
+      </div>
+
+      <div class="save-bar" style="margin-top:20px">
+        <span class="save-hint">Changes are saved instantly when you click Save testimonials.</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="save-toast" id="toast-testimonials">✓ Saved!</span>
+          <button class="btn btn-primary" onclick="saveSection('testimonials')">Save testimonials</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="tab" id="tab-stats">
+      <div class="page-title">Stats Bar</div>
+      <div class="page-sub">The 5 numbers shown at the bottom of the hero section</div>
+
+      <div class="card card-featured">
+        <div class="card-title">Homepage stats</div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Stat 1 — Value</label><input id="st-1-val" placeholder="100+" /><div class="field-help">Ex: 100+ or 7 or $0</div></div>
+          <div class="form-field"><label>Stat 1 — Label</label><input id="st-1-lbl" placeholder="Homes purchased in GA" /></div>
+          <div style=""></div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Stat 2 — Value</label><input id="st-2-val" placeholder="7" /></div>
+          <div class="form-field"><label>Stat 2 — Label</label><input id="st-2-lbl" placeholder="Day minimum close" /></div>
+          <div style=""></div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Stat 3 — Value</label><input id="st-3-val" placeholder="$0" /></div>
+          <div class="form-field"><label>Stat 3 — Label</label><input id="st-3-lbl" placeholder="Fees or commissions" /></div>
+          <div style=""></div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Stat 4 — Value</label><input id="st-4-val" placeholder="24h" /></div>
+          <div class="form-field"><label>Stat 4 — Label</label><input id="st-4-lbl" placeholder="Offer turnaround" /></div>
+          <div style=""></div>
+        </div>
+        <div class="form-row cols-3">
+          <div class="form-field"><label>Stat 5 — Value</label><input id="st-5-val" placeholder="5★" /></div>
+          <div class="form-field"><label>Stat 5 — Label</label><input id="st-5-lbl" placeholder="Seller satisfaction" /></div>
+          <div style=""></div>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <span class="save-hint">These numbers appear on the homepage below the hero.</span>
+        <div style="display:flex;align-items:center;gap:12px">
+          <span class="save-toast" id="toast-stats">✓ Saved!</span>
+          <button class="btn btn-primary" onclick="saveSection('stats')">Save stats</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="tab" id="tab-security">
+      <div class="page-title">Security</div>
+      <div class="page-sub">Change your admin password</div>
+      <div class="card card-featured" style="max-width:420px">
+        <div class="card-title">Change password</div>
+        <div class="form-field" style="margin-bottom:12px"><label>Current password</label><input type="password" id="sec-current" /></div>
+        <div class="form-field" style="margin-bottom:12px"><label>New password</label><input type="password" id="sec-new" /></div>
+        <div class="form-field" style="margin-bottom:20px"><label>Confirm new password</label><input type="password" id="sec-confirm" /></div>
+        <div id="sec-msg" style="font-size:12px;min-height:16px;margin-bottom:12px"></div>
+        <button class="btn btn-primary" onclick="changePassword()">Update password</button>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ============================================================
+// AUTH
+// ============================================================
+const DEFAULT_PW = 'p714admin';
+
+function doLogin() {
+  const pw = document.getElementById('pw-input').value;
+  const stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
+  if (pw === stored) {
+    localStorage.setItem('p714_authed', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'grid';
+    initApp();
+  } else {
+    document.getElementById('login-err').textContent = 'Incorrect password.';
+  }
+}
+
+function doLogout() {
+  localStorage.removeItem('p714_authed');
+  location.reload();
+}
+
+function changePassword() {
+  const cur = document.getElementById('sec-current').value;
+  const nw  = document.getElementById('sec-new').value;
+  const cf  = document.getElementById('sec-confirm').value;
+  const stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
+  const msg = document.getElementById('sec-msg');
+  if (cur !== stored) { msg.style.color = '#e05252'; msg.textContent = 'Current password incorrect.'; return; }
+  if (nw.length < 6)  { msg.style.color = '#e05252'; msg.textContent = 'New password must be at least 6 characters.'; return; }
+  if (nw !== cf)      { msg.style.color = '#e05252'; msg.textContent = 'Passwords do not match.'; return; }
+  localStorage.setItem('p714_admin_pw', nw);
+  msg.style.color = '#4caf7d'; msg.textContent = '✓ Password updated! You\'ll use it next time you log in.';
+}
+
+// Auto-login if already authenticated
+if (localStorage.getItem('p714_authed') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'grid';
+  initApp();
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function switchTab(el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + el.dataset.tab).classList.add('active');
+}
+
+function switchTabById(id) {
+  const el = document.querySelector('[data-tab="' + id + '"]');
+  if (el) switchTab(el);
+}
+
+// ============================================================
+// DATA LAYER
+// ============================================================
+function getData() {
+  try { return JSON.parse(localStorage.getItem('p714_data') || '{}'); } catch(e) { return {}; }
+}
+
+function setData(key, val) {
+  const d = getData();
+  d[key] = val;
+  localStorage.setItem('p714_data', JSON.stringify(d));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function initApp() {
+  loadSiteConfig();
+  loadHero();
+  loadStats();
+  loadProperties();
+  loadTestimonials();
+  updateDashboard();
+}
+
+// ============================================================
+// SITE CONFIG
+// ============================================================
+function loadSiteConfig() {
+  const d = getData().siteconfig || {};
+  const set = (id, val, fb) => { const el = document.getElementById(id); if(el) el.value = val || fb || ''; };
+  set('cfg-phone',         d.phone,        '4045901613');
+  set('cfg-phone-display', d.phoneDisplay, '(404) 590-1613');
+  set('cfg-email',         d.email,        'info@properties714.com');
+  set('cfg-hours',         d.hours,        'Mon–Sat · 8am–7pm EST');
+  set('cfg-area',          d.area,         'Serving all of Georgia');
+  set('cfg-tagline1',      d.tagline1,     'Serious About Buying.');
+  set('cfg-tagline2',      d.tagline2,     'Serious About Closing.');
+}
+
+// ============================================================
+// HERO
+// ============================================================
+function loadHero() {
+  const d = getData().hero || {};
+  const set = (id, val, fb) => { const el = document.getElementById(id); if(el) el.value = val || fb || ''; };
+  set('cfg-video-id',    d.videoId,    '');
+  set('cfg-video-label', d.videoLabel, 'Who we are');
+  set('cfg-hero-l1',     d.line1,      'Sell your house');
+  set('cfg-hero-l2',     d.line2,      'fast, as-is,');
+  set('cfg-hero-l3',     d.line3,      'for cash.');
+  set('cfg-hero-sub',    d.sub,        'No repairs. No commissions. No open houses. Close in as little as 7 days — you pick the date.');
+  set('cfg-hero-badge',  d.badge,      'Georgia Real Estate Investors');
+  set('cfg-trust1',      d.trust1,     'No repairs needed');
+  set('cfg-trust2',      d.trust2,     'Zero commissions or fees');
+  set('cfg-trust3',      d.trust3,     'Close in as little as 7 days');
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function loadStats() {
+  const d = getData().stats || {};
+  for (let i = 1; i <= 5; i++) {
+    const s = d['s'+i] || {};
+    const defaults = ['100+','7','$0','24h','5★'];
+    const lbls = ['Homes purchased in GA','Day minimum close','Fees or commissions','Offer turnaround','Seller satisfaction'];
+    const v = document.getElementById('st-'+i+'-val'); if(v) v.value = s.val || defaults[i-1];
+    const l = document.getElementById('st-'+i+'-lbl'); if(l) l.value = s.lbl || lbls[i-1];
+  }
+}
+
+// ============================================================
+// SAVE SECTIONS
+// ============================================================
+function saveSection(section) {
+  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  let saved = {};
+
+  if (section === 'siteconfig') {
+    saved = { phone: g('cfg-phone'), phoneDisplay: g('cfg-phone-display'), email: g('cfg-email'), hours: g('cfg-hours'), area: g('cfg-area'), tagline1: g('cfg-tagline1'), tagline2: g('cfg-tagline2') };
+  } else if (section === 'hero') {
+    saved = { videoId: g('cfg-video-id'), videoLabel: g('cfg-video-label'), line1: g('cfg-hero-l1'), line2: g('cfg-hero-l2'), line3: g('cfg-hero-l3'), sub: g('cfg-hero-sub'), badge: g('cfg-hero-badge'), trust1: g('cfg-trust1'), trust2: g('cfg-trust2'), trust3: g('cfg-trust3') };
+  } else if (section === 'stats') {
+    for (let i = 1; i <= 5; i++) { saved['s'+i] = { val: g('st-'+i+'-val'), lbl: g('st-'+i+'-lbl') }; }
+  } else if (section === 'testimonials') {
+    saved = gatherTestimonials();
+  }
+
+  if (section === 'testimonials') { setData('testimonials', saved); }
+  else { setData(section, saved); }
+
+  showToast(section);
+  updateDashboard();
+}
+
+function showToast(section) {
+  const t = document.getElementById('toast-' + section);
+  if (!t) return;
+  t.style.display = 'inline';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+// ============================================================
+// PROPERTIES CRUD
+// ============================================================
+function getProps() { return getData().properties || []; }
+
+function loadProperties() {
+  let props = getProps();
+  if (!props.length) {
+    props = [
+      { id: 1, price: '$124,900', addr: '3847 Elm Street, Atlanta, GA 30310', beds: '3', baths: '2', sqft: '1,240', status: 'avail', img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', desc: '' },
+      { id: 2, price: '$87,500',  addr: '1291 Oak Avenue, Macon, GA 31201',   beds: '2', baths: '1', sqft: '980',   status: 'contract', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80', desc: '' },
+      { id: 3, price: '$210,000', addr: '562 Maple Drive, Savannah, GA 31401', beds: '4', baths: '2', sqft: '1,850', status: 'avail', img: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80', desc: '' },
+    ];
+    setData('properties', props);
+  }
+  renderPropsTable(props);
+}
+
+function renderPropsTable(props) {
+  const tbody = document.getElementById('prop-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = props.map(p => `
+    <tr>
+      <td><div class="td-img"><img src="${p.img}" alt="" onerror="this.style.display='none'" /></div></td>
+      <td><strong>${p.price}</strong></td>
+      <td style="max-width:220px">${p.addr}</td>
+      <td><span style="font-family:var(--mono);font-size:11px;color:var(--muted)">${p.beds}b / ${p.baths}ba / ${p.sqft} sqft</span></td>
+      <td><span class="badge badge-${p.status}">${p.status === 'avail' ? 'Available' : p.status === 'contract' ? 'Under Contract' : 'Sold'}</span></td>
+      <td><div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-secondary" onclick="openPropForm(${p.id})">Edit</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteProp(${p.id})">Del</button>
+      </div></td>
+    </tr>
+  `).join('');
+}
+
+function openPropForm(id) {
+  const wrap = document.getElementById('prop-form-wrap');
+  const titleEl = document.getElementById('prop-form-title');
+  wrap.classList.add('open');
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  if (id === null) {
+    titleEl.textContent = 'Add new property';
+    document.getElementById('prop-edit-id').value = '';
+    ['pf-price','pf-addr','pf-beds','pf-baths','pf-sqft','pf-img','pf-desc'].forEach(f => { const el = document.getElementById(f); if(el) el.value = ''; });
+    document.getElementById('pf-status').value = 'avail';
+    document.getElementById('pf-img-preview').innerHTML = '<span>Image preview</span>';
+  } else {
+    const props = getProps();
+    const p = props.find(x => x.id === id);
+    if (!p) return;
+    titleEl.textContent = 'Edit property';
+    document.getElementById('prop-edit-id').value = id;
+    document.getElementById('pf-price').value = p.price || '';
+    document.getElementById('pf-addr').value = p.addr || '';
+    document.getElementById('pf-beds').value = p.beds || '';
+    document.getElementById('pf-baths').value = p.baths || '';
+    document.getElementById('pf-sqft').value = p.sqft || '';
+    document.getElementById('pf-status').value = p.status || 'avail';
+    document.getElementById('pf-img').value = p.img || '';
+    document.getElementById('pf-desc').value = p.desc || '';
+    previewPropImg();
+  }
+}
+
+function closePropForm() {
+  document.getElementById('prop-form-wrap').classList.remove('open');
+}
+
+function previewPropImg() {
+  const url = document.getElementById('pf-img').value.trim();
+  const wrap = document.getElementById('pf-img-preview');
+  if (url) { wrap.innerHTML = `<img src="${url}" alt="" onerror="this.parentElement.innerHTML='<span>Could not load image</span>'" />`; }
+  else { wrap.innerHTML = '<span>Image preview</span>'; }
+}
+
+function saveProp() {
+  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const editId = g('prop-edit-id');
+  const newProp = {
+    id:     editId ? parseInt(editId) : Date.now(),
+    price:  g('pf-price'),
+    addr:   g('pf-addr'),
+    beds:   g('pf-beds'),
+    baths:  g('pf-baths'),
+    sqft:   g('pf-sqft'),
+    status: g('pf-status'),
+    img:    g('pf-img'),
+    desc:   g('pf-desc'),
+  };
+  if (!newProp.price || !newProp.addr) { alert('Price and address are required.'); return; }
+  let props = getProps();
+  if (editId) { props = props.map(p => p.id === parseInt(editId) ? newProp : p); }
+  else { props.push(newProp); }
+  setData('properties', props);
+  renderPropsTable(props);
+  closePropForm();
+  updateDashboard();
+}
+
+function deleteProp(id) {
+  if (!confirm('Delete this property?')) return;
+  const props = getProps().filter(p => p.id !== id);
+  setData('properties', props);
+  renderPropsTable(props);
+  updateDashboard();
+}
+
+// ============================================================
+// TESTIMONIALS
+// ============================================================
+function getTestis() {
+  return getData().testimonials || [
+    { quote: 'My experience was fantastic. They are great people, very helpful. They make every deal a win-win situation.', name: 'Jose A.', loc: 'Atlanta, GA' },
+    { quote: 'It was a great experience. They are very professional, courteous and they return calls promptly.', name: 'Casey & Danny', loc: 'Savannah, GA' },
+    { quote: 'I was able to get a fast, decent offer and not have to deal with the mess of evicting tenants, cleaning, and repairs.', name: 'Doug V.', loc: 'Augusta, GA' },
+  ];
+}
+
+function loadTestimonials() {
+  renderTestis(getTestis());
+}
+
+function renderTestis(testis) {
+  const wrap = document.getElementById('testi-list');
+  if (!wrap) return;
+  wrap.innerHTML = testis.map((t, i) => `
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title">Testimonial ${i+1}</div>
+      <div class="form-row full" style="margin-bottom:12px">
+        <div class="form-field"><label>Quote *</label><textarea class="t-quote" rows="3" placeholder="Their testimonial text...">${t.quote || ''}</textarea></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label>Name</label><input class="t-name" value="${t.name || ''}" placeholder="Jose A." /></div>
+        <div class="form-field"><label>Location</label><input class="t-loc" value="${t.loc || ''}" placeholder="Atlanta, GA" /></div>
+      </div>
+      <button class="btn btn-sm btn-danger" style="margin-top:8px" onclick="removeTesti(${i})">Remove</button>
+    </div>
+  `).join('');
+}
+
+function addTesti() {
+  const testis = gatherTestimonials();
+  testis.push({ quote: '', name: '', loc: '' });
+  renderTestis(testis);
+}
+
+function removeTesti(i) {
+  if (!confirm('Remove this testimonial?')) return;
+  const testis = gatherTestimonials();
+  testis.splice(i, 1);
+  renderTestis(testis);
+}
+
+function gatherTestimonials() {
+  const qs = document.querySelectorAll('.t-quote');
+  const ns = document.querySelectorAll('.t-name');
+  const ls = document.querySelectorAll('.t-loc');
+  const out = [];
+  qs.forEach((q, i) => out.push({ quote: q.value.trim(), name: ns[i]?.value.trim() || '', loc: ls[i]?.value.trim() || '' }));
+  return out;
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function updateDashboard() {
+  const props  = getProps();
+  const testis = getTestis();
+  const cfg    = getData().siteconfig || {};
+  const avail  = props.filter(p => p.status === 'avail').length;
+
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="dash-stat"><div class="ds-icon">🏡</div><div class="ds-val">${props.length}</div><div class="ds-lbl">Total properties</div></div>
+    <div class="dash-stat"><div class="ds-icon">🟢</div><div class="ds-val">${avail}</div><div class="ds-lbl">Available</div></div>
+    <div class="dash-stat"><div class="ds-icon">⭐</div><div class="ds-val">${testis.length}</div><div class="ds-lbl">Testimonials</div></div>
+    <div class="dash-stat"><div class="ds-icon">📞</div><div class="ds-val" style="font-size:16px">${cfg.phoneDisplay || '(404) 590-1613'}</div><div class="ds-lbl">Phone</div></div>
+  `;
+}
+</script>
+</body>
+</html>
