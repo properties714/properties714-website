@@ -33,14 +33,14 @@
       <p style="font-size:14px;color:var(--cream-2);margin-bottom:32px">Fill out the form and we'll contact you within 24 hours with a no-obligation cash offer.</p>
       <form onsubmit="handleForm(event)">
         <div class="form-grid">
-          <div class="form-field full"><label>Property address *</label><input type="text" placeholder="1234 Peachtree Blvd, Atlanta, GA 30309" required /></div>
-          <div class="form-field"><label>Your name *</label><input type="text" placeholder="John Smith" required /></div>
-          <div class="form-field"><label>Phone *</label><input type="tel" placeholder="(404) 555-0000" required /></div>
-          <div class="form-field"><label>Email</label><input type="email" placeholder="john@email.com" /></div>
+          <div class="form-field full"><label>Property address *</label><input id="sell-address" type="text" placeholder="1234 Peachtree Blvd, Atlanta, GA 30309" required /></div>
+          <div class="form-field"><label>Your name *</label><input id="sell-name" type="text" placeholder="John Smith" required /></div>
+          <div class="form-field"><label>Phone *</label><input id="sell-phone" type="tel" placeholder="(404) 555-0000" required /></div>
+          <div class="form-field"><label>Email</label><input id="sell-email" type="email" placeholder="john@email.com" /></div>
           <div class="form-field"><label>Situation</label>
-            <select><option value="">Select your situation</option><option>Need to sell quickly</option><option>Behind on payments</option><option>Inherited property</option><option>Relocating</option><option>Divorce</option><option>Tired landlord</option><option>Property needs repairs</option><option>Other</option></select>
+            <select id="sell-situation"><option value="">Select your situation</option><option>Need to sell quickly</option><option>Behind on payments</option><option>Inherited property</option><option>Relocating</option><option>Divorce</option><option>Tired landlord</option><option>Property needs repairs</option><option>Other</option></select>
           </div>
-          <div class="form-field full"><label>Additional notes</label><textarea placeholder="Tell us anything else we should know about the property..."></textarea></div>
+          <div class="form-field full"><label>Additional notes</label><textarea id="sell-notes" placeholder="Tell us anything else we should know about the property..."></textarea></div>
           <div class="form-submit-wrap">
             <button type="submit" class="btn-gold btn-full" style="height:52px;font-size:16px">Get my free cash offer →</button>
             <p class="form-note">🔒 We respect your privacy. No spam, ever. No obligation.</p>
@@ -89,7 +89,34 @@
   <div class="footer-bottom"><span>© 2026 Properties714 LLC · All Rights Reserved</span><span>Georgia</span></div>
 </footer>
 <script>
-function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');btn.textContent='✓ Received! We\'ll call you within 24h';btn.style.background='#1a5c38';btn.disabled=true;}
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+function saveLead(lead) {
+  try {
+    var leads = JSON.parse(localStorage.getItem('p714_leads') || '[]');
+    leads.unshift(lead);
+    localStorage.setItem('p714_leads', JSON.stringify(leads));
+  } catch(err) { console.error('Could not save lead', err); }
+}
+
+function handleForm(e) {
+  e.preventDefault();
+  var lead = {
+    id: Date.now(),
+    source: 'sell',
+    date: new Date().toISOString(),
+    name:      (document.getElementById('sell-name')      || {value:''}).value.trim(),
+    phone:     (document.getElementById('sell-phone')     || {value:''}).value.trim(),
+    email:     (document.getElementById('sell-email')     || {value:''}).value.trim(),
+    address:   (document.getElementById('sell-address')   || {value:''}).value.trim(),
+    situation: (document.getElementById('sell-situation') || {value:''}).value,
+    message:   (document.getElementById('sell-notes')     || {value:''}).value.trim(),
+    status: 'new'
+  };
+  saveLead(lead);
+  var btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = '✓ Received! We\'ll call you within 24h';
+  btn.style.background = '#1a5c38';
+  btn.disabled = true;
+}
+document.getElementById('hamburger').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('open'); });
 </script>
 </body></html>

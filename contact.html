@@ -32,13 +32,13 @@
       <h2 style="font-size:24px;margin-bottom:24px">Send us a message</h2>
       <form onsubmit="handleForm(event)">
         <div class="form-grid">
-          <div class="form-field"><label>Name *</label><input type="text" placeholder="Your name" required /></div>
-          <div class="form-field"><label>Phone</label><input type="tel" placeholder="(404) 555-0000" /></div>
-          <div class="form-field full"><label>Email *</label><input type="email" placeholder="your@email.com" required /></div>
+          <div class="form-field"><label>Name *</label><input id="contact-name" type="text" placeholder="Your name" required /></div>
+          <div class="form-field"><label>Phone</label><input id="contact-phone" type="tel" placeholder="(404) 555-0000" /></div>
+          <div class="form-field full"><label>Email *</label><input id="contact-email" type="email" placeholder="your@email.com" required /></div>
           <div class="form-field full"><label>How can we help?</label>
-            <select><option value="">Select topic</option><option>I want to sell my house</option><option>I'm looking to buy a property</option><option>I'm a real estate investor</option><option>General question</option></select>
+            <select id="contact-topic"><option value="">Select topic</option><option>I want to sell my house</option><option>I'm looking to buy a property</option><option>I'm a real estate investor</option><option>General question</option></select>
           </div>
-          <div class="form-field full"><label>Message *</label><textarea placeholder="Tell us how we can help..." required></textarea></div>
+          <div class="form-field full"><label>Message *</label><textarea id="contact-message" placeholder="Tell us how we can help..." required></textarea></div>
           <div class="form-submit-wrap"><button type="submit" class="btn-gold btn-full" style="height:52px;font-size:16px">Send message →</button><p class="form-note">🔒 We'll respond within 24 hours.</p></div>
         </div>
       </form>
@@ -61,7 +61,33 @@
 
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><div class="footer-logo">Properties<span>714</span></div><p class="footer-tagline">Serious About Buying.<br>Serious About Closing.</p><div class="footer-contact"><a href="tel:4045901613">(404) 590-1613</a><span>📍 Serving all of Georgia</span></div></div><div class="footer-col"><div class="footer-col-title">Sellers</div><a href="/sell.html">Get cash offer</a></div><div class="footer-col"><div class="footer-col-title">Investors</div><a href="/properties.html">Properties</a><a href="/investors.html">Investor list</a></div><div class="footer-col"><div class="footer-col-title">Company</div><a href="/about.html">About</a><a href="/blog.html">Blog</a></div></div><div class="footer-bottom"><span>© 2026 Properties714 LLC</span></div></footer>
 <script>
-function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');btn.textContent='✓ Message sent! We\'ll be in touch.';btn.style.background='#1a5c38';btn.disabled=true;}
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
+function saveLead(lead) {
+  try {
+    var leads = JSON.parse(localStorage.getItem('p714_leads') || '[]');
+    leads.unshift(lead);
+    localStorage.setItem('p714_leads', JSON.stringify(leads));
+  } catch(err) { console.error('Could not save lead', err); }
+}
+
+function handleForm(e) {
+  e.preventDefault();
+  var lead = {
+    id: Date.now(),
+    source: 'contact',
+    date: new Date().toISOString(),
+    name:    (document.getElementById('contact-name')    || {value:''}).value.trim(),
+    phone:   (document.getElementById('contact-phone')   || {value:''}).value.trim(),
+    email:   (document.getElementById('contact-email')   || {value:''}).value.trim(),
+    topic:   (document.getElementById('contact-topic')   || {value:''}).value,
+    message: (document.getElementById('contact-message') || {value:''}).value.trim(),
+    status: 'new'
+  };
+  saveLead(lead);
+  var btn = e.target.querySelector('button[type="submit"]');
+  btn.textContent = '✓ Message sent! We\'ll be in touch.';
+  btn.style.background = '#1a5c38';
+  btn.disabled = true;
+}
+document.getElementById('hamburger').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('open'); });
 </script>
 </body></html>

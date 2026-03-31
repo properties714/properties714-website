@@ -19,6 +19,7 @@
       --dim:     #3a3830;
       --danger:  #e05252;
       --success: #4caf7d;
+      --warn:    #e8a94c;
       --mono:    'DM Mono', monospace;
       --sans:    'Inter', sans-serif;
       --r:       8px;
@@ -57,6 +58,7 @@
     .nav-item:hover{background:rgba(255,255,255,0.04);color:var(--cream)}
     .nav-item.active{background:var(--gold-d);color:var(--gold)}
     .nav-icon{width:16px;text-align:center;flex-shrink:0}
+    .nav-badge{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;padding:0 4px;margin-left:auto}
 
     /* MAIN */
     #main{overflow-y:auto;padding:32px}
@@ -115,6 +117,8 @@
     .badge-avail{background:rgba(76,175,125,0.15);color:#4caf7d}
     .badge-contract{background:var(--gold-d);color:var(--gold)}
     .badge-sold{background:rgba(255,255,255,0.06);color:var(--muted)}
+    .badge-sell{background:rgba(76,175,125,0.15);color:#4caf7d}
+    .badge-contact-src{background:var(--gold-d);color:var(--gold)}
 
     /* PROP FORM */
     .prop-form-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-top:20px;display:none}
@@ -125,7 +129,9 @@
 
     /* DASHBOARD STATS */
     .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-    .dash-stat{background:var(--card);border:1px solid var(--border2);border-radius:var(--r-lg);padding:20px}
+    .dash-stat{background:var(--card);border:1px solid var(--border2);border-radius:var(--r-lg);padding:20px;cursor:default}
+    .dash-stat.clickable{cursor:pointer;transition:border-color 150ms}
+    .dash-stat.clickable:hover{border-color:var(--border)}
     .ds-val{font-size:28px;font-weight:600;color:var(--gold);font-family:'Georgia',serif;margin:4px 0}
     .ds-lbl{font-size:11px;color:var(--muted);font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em}
     .ds-icon{font-size:18px;margin-bottom:4px}
@@ -140,6 +146,18 @@
     /* ALERT */
     .alert{padding:12px 16px;border-radius:var(--r);font-size:13px;margin-bottom:16px}
     .alert-info{background:var(--gold-d);border:1px solid var(--border);color:var(--cream)}
+    .alert-warn{background:rgba(232,169,76,0.1);border:1px solid rgba(232,169,76,0.3);color:var(--warn)}
+
+    /* LEADS FILTERS */
+    .leads-filter-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+    .leads-filter-btns{display:flex;gap:6px;flex-wrap:wrap}
+    .filter-btn{padding:6px 14px;font-size:12px;border-radius:99px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);transition:all 150ms}
+    .filter-btn:hover{color:var(--cream);border-color:rgba(255,255,255,0.25)}
+    .filter-btn.active{background:var(--gold-d);border-color:var(--border);color:var(--gold)}
+    .lead-status-sel{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:4px 6px;color:var(--cream);font-size:11px;cursor:pointer;font-family:var(--sans)}
+    .empty-leads{text-align:center;padding:48px 24px;color:var(--muted)}
+    .empty-leads-icon{font-size:40px;margin-bottom:12px}
+    .empty-leads-title{font-size:15px;font-weight:500;color:var(--cream);margin-bottom:6px}
   </style>
 </head>
 <body>
@@ -174,12 +192,17 @@
     <div class="nav-item active" data-tab="dashboard" onclick="switchTab(this)">
       <span class="nav-icon">🏠</span> Dashboard
     </div>
+    <div class="nav-section">Leads</div>
+    <div class="nav-item" data-tab="leads" onclick="switchTab(this)">
+      <span class="nav-icon">📋</span> Leads
+      <span class="nav-badge" id="leads-badge" style="display:none">0</span>
+    </div>
     <div class="nav-section">Content</div>
     <div class="nav-item" data-tab="siteconfig" onclick="switchTab(this)">
       <span class="nav-icon">⚙️</span> Site Config
     </div>
     <div class="nav-item" data-tab="hero" onclick="switchTab(this)">
-      <span class="nav-icon">🎥</span> Hero & Video
+      <span class="nav-icon">🎥</span> Hero &amp; Video
     </div>
     <div class="nav-item" data-tab="properties" onclick="switchTab(this)">
       <span class="nav-icon">🏡</span> Properties
@@ -207,7 +230,8 @@
       <div class="card">
         <div class="card-title">Quick actions</div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="switchTabById('hero')">&#9654; Update video</button>
+          <button class="btn btn-primary" onclick="switchTabById('leads')">📋 View leads</button>
+          <button class="btn btn-secondary" onclick="switchTabById('hero')">&#9654; Update video</button>
           <button class="btn btn-secondary" onclick="switchTabById('properties')">+ Add property</button>
           <button class="btn btn-secondary" onclick="switchTabById('siteconfig')">Edit phone number</button>
           <button class="btn btn-secondary" onclick="window.open('/','_blank')">View website ↗</button>
@@ -216,12 +240,59 @@
       <div class="card">
         <div class="card-title">How to use this admin</div>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)">
+          <div>→ <strong style="color:var(--cream)">Leads</strong> — View all form submissions from sell.html and contact.html</div>
           <div>→ <strong style="color:var(--cream)">Site Config</strong> — Change phone number, email, address, contact info</div>
           <div>→ <strong style="color:var(--cream)">Hero &amp; Video</strong> — Update the YouTube video ID and hero headline text</div>
           <div>→ <strong style="color:var(--cream)">Properties</strong> — Add, edit, or remove property listings with photos</div>
           <div>→ <strong style="color:var(--cream)">Testimonials</strong> — Manage seller reviews and quotes</div>
           <div>→ <strong style="color:var(--cream)">Stats Bar</strong> — Update the numbers shown below the hero (homes purchased, etc.)</div>
           <div>→ <strong style="color:var(--cream)">Security</strong> — Change your admin password</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEADS -->
+    <div class="tab" id="tab-leads">
+      <div class="page-title">Leads</div>
+      <div class="page-sub">Form submissions from sell.html and contact.html</div>
+
+      <div class="alert alert-warn" style="margin-bottom:20px">
+        ⚠️ <strong>Nota:</strong> Los leads se guardan en <strong>este navegador</strong> (localStorage). Funcionan perfecto si el admin y los visitantes usan el mismo dispositivo/navegador. Para producción multi-dispositivo, considera integrar Firebase o un backend.
+      </div>
+
+      <div class="leads-filter-bar">
+        <div class="leads-filter-btns">
+          <button class="filter-btn active" id="fbtn-all" onclick="filterLeads('all', this)">Todos</button>
+          <button class="filter-btn" id="fbtn-new" onclick="filterLeads('new', this)">🔴 Nuevos</button>
+          <button class="filter-btn" id="fbtn-contacted" onclick="filterLeads('contacted', this)">🟡 Contactados</button>
+          <button class="filter-btn" id="fbtn-closed" onclick="filterLeads('closed', this)">🟢 Cerrados</button>
+          <button class="filter-btn" id="fbtn-sell" onclick="filterLeads('sell', this)">🏠 Sell form</button>
+          <button class="filter-btn" id="fbtn-contact" onclick="filterLeads('contact', this)">✉️ Contact form</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-secondary" onclick="exportLeadsCSV()">⬇ Export CSV</button>
+          <button class="btn btn-sm btn-danger" onclick="clearAllLeads()">🗑 Borrar todos</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0">
+        <div class="table-wrap">
+          <table id="leads-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Fuente</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Dirección / Tema</th>
+                <th>Situación / Mensaje</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="leads-tbody"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -459,11 +530,11 @@
 // ============================================================
 // AUTH
 // ============================================================
-const DEFAULT_PW = 'p714admin';
+var DEFAULT_PW = 'p714admin';
 
 function doLogin() {
-  const pw = document.getElementById('pw-input').value;
-  const stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
+  var pw = document.getElementById('pw-input').value;
+  var stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
   if (pw === stored) {
     localStorage.setItem('p714_authed', '1');
     document.getElementById('login-screen').style.display = 'none';
@@ -480,19 +551,18 @@ function doLogout() {
 }
 
 function changePassword() {
-  const cur = document.getElementById('sec-current').value;
-  const nw  = document.getElementById('sec-new').value;
-  const cf  = document.getElementById('sec-confirm').value;
-  const stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
-  const msg = document.getElementById('sec-msg');
+  var cur = document.getElementById('sec-current').value;
+  var nw  = document.getElementById('sec-new').value;
+  var cf  = document.getElementById('sec-confirm').value;
+  var stored = localStorage.getItem('p714_admin_pw') || DEFAULT_PW;
+  var msg = document.getElementById('sec-msg');
   if (cur !== stored) { msg.style.color = '#e05252'; msg.textContent = 'Current password incorrect.'; return; }
   if (nw.length < 6)  { msg.style.color = '#e05252'; msg.textContent = 'New password must be at least 6 characters.'; return; }
   if (nw !== cf)      { msg.style.color = '#e05252'; msg.textContent = 'Passwords do not match.'; return; }
   localStorage.setItem('p714_admin_pw', nw);
-  msg.style.color = '#4caf7d'; msg.textContent = '✓ Password updated! You\'ll use it next time you log in.';
+  msg.style.color = '#4caf7d'; msg.textContent = '✓ Password updated!';
 }
 
-// Auto-login if already authenticated
 if (localStorage.getItem('p714_authed') === '1') {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'grid';
@@ -503,14 +573,15 @@ if (localStorage.getItem('p714_authed') === '1') {
 // NAV
 // ============================================================
 function switchTab(el) {
-  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(function(i) { i.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
   el.classList.add('active');
   document.getElementById('tab-' + el.dataset.tab).classList.add('active');
+  if (el.dataset.tab === 'leads') renderLeads();
 }
 
 function switchTabById(id) {
-  const el = document.querySelector('[data-tab="' + id + '"]');
+  var el = document.querySelector('[data-tab="' + id + '"]');
   if (el) switchTab(el);
 }
 
@@ -522,7 +593,7 @@ function getData() {
 }
 
 function setData(key, val) {
-  const d = getData();
+  var d = getData();
   d[key] = val;
   localStorage.setItem('p714_data', JSON.stringify(d));
 }
@@ -537,14 +608,15 @@ function initApp() {
   loadProperties();
   loadTestimonials();
   updateDashboard();
+  updateLeadsBadge();
 }
 
 // ============================================================
 // SITE CONFIG
 // ============================================================
 function loadSiteConfig() {
-  const d = getData().siteconfig || {};
-  const set = (id, val, fb) => { const el = document.getElementById(id); if(el) el.value = val || fb || ''; };
+  var d = getData().siteconfig || {};
+  var set = function(id, val, fb) { var el = document.getElementById(id); if(el) el.value = val || fb || ''; };
   set('cfg-phone',         d.phone,        '4045901613');
   set('cfg-phone-display', d.phoneDisplay, '(404) 590-1613');
   set('cfg-email',         d.email,        'info@properties714.com');
@@ -558,14 +630,14 @@ function loadSiteConfig() {
 // HERO
 // ============================================================
 function loadHero() {
-  const d = getData().hero || {};
-  const set = (id, val, fb) => { const el = document.getElementById(id); if(el) el.value = val || fb || ''; };
+  var d = getData().hero || {};
+  var set = function(id, val, fb) { var el = document.getElementById(id); if(el) el.value = val || fb || ''; };
   set('cfg-video-id',    d.videoId,    '');
   set('cfg-video-label', d.videoLabel, 'Who we are');
   set('cfg-hero-l1',     d.line1,      'Sell your house');
   set('cfg-hero-l2',     d.line2,      'fast, as-is,');
   set('cfg-hero-l3',     d.line3,      'for cash.');
-  set('cfg-hero-sub',    d.sub,        'No repairs. No commissions. No open houses. Close in as little as 7 days — you pick the date.');
+  set('cfg-hero-sub',    d.sub,        'No repairs. No commissions. No open houses.');
   set('cfg-hero-badge',  d.badge,      'Georgia Real Estate Investors');
   set('cfg-trust1',      d.trust1,     'No repairs needed');
   set('cfg-trust2',      d.trust2,     'Zero commissions or fees');
@@ -576,13 +648,13 @@ function loadHero() {
 // STATS
 // ============================================================
 function loadStats() {
-  const d = getData().stats || {};
-  for (let i = 1; i <= 5; i++) {
-    const s = d['s'+i] || {};
-    const defaults = ['100+','7','$0','24h','5★'];
-    const lbls = ['Homes purchased in GA','Day minimum close','Fees or commissions','Offer turnaround','Seller satisfaction'];
-    const v = document.getElementById('st-'+i+'-val'); if(v) v.value = s.val || defaults[i-1];
-    const l = document.getElementById('st-'+i+'-lbl'); if(l) l.value = s.lbl || lbls[i-1];
+  var d = getData().stats || {};
+  for (var i = 1; i <= 5; i++) {
+    var s = d['s'+i] || {};
+    var defaults = ['100+','7','$0','24h','5★'];
+    var lbls = ['Homes purchased in GA','Day minimum close','Fees or commissions','Offer turnaround','Seller satisfaction'];
+    var v = document.getElementById('st-'+i+'-val'); if(v) v.value = s.val || defaults[i-1];
+    var l = document.getElementById('st-'+i+'-lbl'); if(l) l.value = s.lbl || lbls[i-1];
   }
 }
 
@@ -590,15 +662,15 @@ function loadStats() {
 // SAVE SECTIONS
 // ============================================================
 function saveSection(section) {
-  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  let saved = {};
+  var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  var saved = {};
 
   if (section === 'siteconfig') {
     saved = { phone: g('cfg-phone'), phoneDisplay: g('cfg-phone-display'), email: g('cfg-email'), hours: g('cfg-hours'), area: g('cfg-area'), tagline1: g('cfg-tagline1'), tagline2: g('cfg-tagline2') };
   } else if (section === 'hero') {
     saved = { videoId: g('cfg-video-id'), videoLabel: g('cfg-video-label'), line1: g('cfg-hero-l1'), line2: g('cfg-hero-l2'), line3: g('cfg-hero-l3'), sub: g('cfg-hero-sub'), badge: g('cfg-hero-badge'), trust1: g('cfg-trust1'), trust2: g('cfg-trust2'), trust3: g('cfg-trust3') };
   } else if (section === 'stats') {
-    for (let i = 1; i <= 5; i++) { saved['s'+i] = { val: g('st-'+i+'-val'), lbl: g('st-'+i+'-lbl') }; }
+    for (var i = 1; i <= 5; i++) { saved['s'+i] = { val: g('st-'+i+'-val'), lbl: g('st-'+i+'-lbl') }; }
   } else if (section === 'testimonials') {
     saved = gatherTestimonials();
   }
@@ -611,10 +683,10 @@ function saveSection(section) {
 }
 
 function showToast(section) {
-  const t = document.getElementById('toast-' + section);
+  var t = document.getElementById('toast-' + section);
   if (!t) return;
   t.style.display = 'inline';
-  setTimeout(() => t.style.display = 'none', 2500);
+  setTimeout(function() { t.style.display = 'none'; }, 2500);
 }
 
 // ============================================================
@@ -623,7 +695,7 @@ function showToast(section) {
 function getProps() { return getData().properties || []; }
 
 function loadProperties() {
-  let props = getProps();
+  var props = getProps();
   if (!props.length) {
     props = [
       { id: 1, price: '$124,900', addr: '3847 Elm Street, Atlanta, GA 30310', beds: '3', baths: '2', sqft: '1,240', status: 'avail', img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', desc: '' },
@@ -636,38 +708,36 @@ function loadProperties() {
 }
 
 function renderPropsTable(props) {
-  const tbody = document.getElementById('prop-tbody');
+  var tbody = document.getElementById('prop-tbody');
   if (!tbody) return;
-  tbody.innerHTML = props.map(p => `
-    <tr>
-      <td><div class="td-img"><img src="${p.img}" alt="" onerror="this.style.display='none'" /></div></td>
-      <td><strong>${p.price}</strong></td>
-      <td style="max-width:220px">${p.addr}</td>
-      <td><span style="font-family:var(--mono);font-size:11px;color:var(--muted)">${p.beds}b / ${p.baths}ba / ${p.sqft} sqft</span></td>
-      <td><span class="badge badge-${p.status}">${p.status === 'avail' ? 'Available' : p.status === 'contract' ? 'Under Contract' : 'Sold'}</span></td>
-      <td><div style="display:flex;gap:6px">
-        <button class="btn btn-sm btn-secondary" onclick="openPropForm(${p.id})">Edit</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteProp(${p.id})">Del</button>
-      </div></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = props.map(function(p) { return '<tr>' +
+    '<td><div class="td-img"><img src="' + p.img + '" alt="" onerror="this.style.display=\'none\'" /></div></td>' +
+    '<td><strong>' + p.price + '</strong></td>' +
+    '<td style="max-width:220px">' + p.addr + '</td>' +
+    '<td><span style="font-family:var(--mono);font-size:11px;color:var(--muted)">' + p.beds + 'b / ' + p.baths + 'ba / ' + p.sqft + ' sqft</span></td>' +
+    '<td><span class="badge badge-' + p.status + '">' + (p.status === 'avail' ? 'Available' : p.status === 'contract' ? 'Under Contract' : 'Sold') + '</span></td>' +
+    '<td><div style="display:flex;gap:6px">' +
+      '<button class="btn btn-sm btn-secondary" onclick="openPropForm(' + p.id + ')">Edit</button>' +
+      '<button class="btn btn-sm btn-danger" onclick="deleteProp(' + p.id + ')">Del</button>' +
+    '</div></td>' +
+  '</tr>'; }).join('');
 }
 
 function openPropForm(id) {
-  const wrap = document.getElementById('prop-form-wrap');
-  const titleEl = document.getElementById('prop-form-title');
+  var wrap = document.getElementById('prop-form-wrap');
+  var titleEl = document.getElementById('prop-form-title');
   wrap.classList.add('open');
   wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   if (id === null) {
     titleEl.textContent = 'Add new property';
     document.getElementById('prop-edit-id').value = '';
-    ['pf-price','pf-addr','pf-beds','pf-baths','pf-sqft','pf-img','pf-desc'].forEach(f => { const el = document.getElementById(f); if(el) el.value = ''; });
+    ['pf-price','pf-addr','pf-beds','pf-baths','pf-sqft','pf-img','pf-desc'].forEach(function(f) { var el = document.getElementById(f); if(el) el.value = ''; });
     document.getElementById('pf-status').value = 'avail';
     document.getElementById('pf-img-preview').innerHTML = '<span>Image preview</span>';
   } else {
-    const props = getProps();
-    const p = props.find(x => x.id === id);
+    var props = getProps();
+    var p = props.find(function(x) { return x.id === id; });
     if (!p) return;
     titleEl.textContent = 'Edit property';
     document.getElementById('prop-edit-id').value = id;
@@ -688,16 +758,16 @@ function closePropForm() {
 }
 
 function previewPropImg() {
-  const url = document.getElementById('pf-img').value.trim();
-  const wrap = document.getElementById('pf-img-preview');
-  if (url) { wrap.innerHTML = `<img src="${url}" alt="" onerror="this.parentElement.innerHTML='<span>Could not load image</span>'" />`; }
+  var url = document.getElementById('pf-img').value.trim();
+  var wrap = document.getElementById('pf-img-preview');
+  if (url) { wrap.innerHTML = '<img src="' + url + '" alt="" onerror="this.parentElement.innerHTML=\'<span>Could not load image</span>\'" />'; }
   else { wrap.innerHTML = '<span>Image preview</span>'; }
 }
 
 function saveProp() {
-  const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  const editId = g('prop-edit-id');
-  const newProp = {
+  var g = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  var editId = g('prop-edit-id');
+  var newProp = {
     id:     editId ? parseInt(editId) : Date.now(),
     price:  g('pf-price'),
     addr:   g('pf-addr'),
@@ -709,8 +779,8 @@ function saveProp() {
     desc:   g('pf-desc'),
   };
   if (!newProp.price || !newProp.addr) { alert('Price and address are required.'); return; }
-  let props = getProps();
-  if (editId) { props = props.map(p => p.id === parseInt(editId) ? newProp : p); }
+  var props = getProps();
+  if (editId) { props = props.map(function(p) { return p.id === parseInt(editId) ? newProp : p; }); }
   else { props.push(newProp); }
   setData('properties', props);
   renderPropsTable(props);
@@ -720,7 +790,7 @@ function saveProp() {
 
 function deleteProp(id) {
   if (!confirm('Delete this property?')) return;
-  const props = getProps().filter(p => p.id !== id);
+  var props = getProps().filter(function(p) { return p.id !== id; });
   setData('properties', props);
   renderPropsTable(props);
   updateDashboard();
@@ -731,9 +801,9 @@ function deleteProp(id) {
 // ============================================================
 function getTestis() {
   return getData().testimonials || [
-    { quote: 'My experience was fantastic. They are great people, very helpful. They make every deal a win-win situation.', name: 'Jose A.', loc: 'Atlanta, GA' },
-    { quote: 'It was a great experience. They are very professional, courteous and they return calls promptly.', name: 'Casey & Danny', loc: 'Savannah, GA' },
-    { quote: 'I was able to get a fast, decent offer and not have to deal with the mess of evicting tenants, cleaning, and repairs.', name: 'Doug V.', loc: 'Augusta, GA' },
+    { quote: 'My experience was fantastic. They are great people, very helpful.', name: 'Jose A.', loc: 'Atlanta, GA' },
+    { quote: 'It was a great experience. Very professional, courteous and they return calls promptly.', name: 'Casey & Danny', loc: 'Savannah, GA' },
+    { quote: 'I was able to get a fast, decent offer and not have to deal with the mess of repairs.', name: 'Doug V.', loc: 'Augusta, GA' },
   ];
 }
 
@@ -742,60 +812,183 @@ function loadTestimonials() {
 }
 
 function renderTestis(testis) {
-  const wrap = document.getElementById('testi-list');
+  var wrap = document.getElementById('testi-list');
   if (!wrap) return;
-  wrap.innerHTML = testis.map((t, i) => `
-    <div class="card" style="margin-bottom:12px">
-      <div class="card-title">Testimonial ${i+1}</div>
-      <div class="form-row full" style="margin-bottom:12px">
-        <div class="form-field"><label>Quote *</label><textarea class="t-quote" rows="3" placeholder="Their testimonial text...">${t.quote || ''}</textarea></div>
-      </div>
-      <div class="form-row">
-        <div class="form-field"><label>Name</label><input class="t-name" value="${t.name || ''}" placeholder="Jose A." /></div>
-        <div class="form-field"><label>Location</label><input class="t-loc" value="${t.loc || ''}" placeholder="Atlanta, GA" /></div>
-      </div>
-      <button class="btn btn-sm btn-danger" style="margin-top:8px" onclick="removeTesti(${i})">Remove</button>
-    </div>
-  `).join('');
+  wrap.innerHTML = testis.map(function(t, i) { return '<div class="card" style="margin-bottom:12px">' +
+    '<div class="card-title">Testimonial ' + (i+1) + '</div>' +
+    '<div class="form-row full" style="margin-bottom:12px"><div class="form-field"><label>Quote *</label><textarea class="t-quote" rows="3" placeholder="Their testimonial text...">' + (t.quote||'') + '</textarea></div></div>' +
+    '<div class="form-row"><div class="form-field"><label>Name</label><input class="t-name" value="' + (t.name||'') + '" placeholder="Jose A." /></div><div class="form-field"><label>Location</label><input class="t-loc" value="' + (t.loc||'') + '" placeholder="Atlanta, GA" /></div></div>' +
+    '<button class="btn btn-sm btn-danger" style="margin-top:8px" onclick="removeTesti(' + i + ')">Remove</button>' +
+  '</div>'; }).join('');
 }
 
 function addTesti() {
-  const testis = gatherTestimonials();
+  var testis = gatherTestimonials();
   testis.push({ quote: '', name: '', loc: '' });
   renderTestis(testis);
 }
 
 function removeTesti(i) {
   if (!confirm('Remove this testimonial?')) return;
-  const testis = gatherTestimonials();
+  var testis = gatherTestimonials();
   testis.splice(i, 1);
   renderTestis(testis);
 }
 
 function gatherTestimonials() {
-  const qs = document.querySelectorAll('.t-quote');
-  const ns = document.querySelectorAll('.t-name');
-  const ls = document.querySelectorAll('.t-loc');
-  const out = [];
-  qs.forEach((q, i) => out.push({ quote: q.value.trim(), name: ns[i]?.value.trim() || '', loc: ls[i]?.value.trim() || '' }));
+  var qs = document.querySelectorAll('.t-quote');
+  var ns = document.querySelectorAll('.t-name');
+  var ls = document.querySelectorAll('.t-loc');
+  var out = [];
+  qs.forEach(function(q, i) { out.push({ quote: q.value.trim(), name: (ns[i]||{value:''}).value.trim(), loc: (ls[i]||{value:''}).value.trim() }); });
   return out;
+}
+
+// ============================================================
+// LEADS
+// ============================================================
+function getLeads() {
+  try { return JSON.parse(localStorage.getItem('p714_leads') || '[]'); } catch(e) { return []; }
+}
+
+var _currentFilter = 'all';
+
+function renderLeads(filter) {
+  filter = filter || _currentFilter || 'all';
+  _currentFilter = filter;
+  var allLeads = getLeads();
+
+  var filtered;
+  if (filter === 'all')       { filtered = allLeads; }
+  else if (filter === 'sell' || filter === 'contact') { filtered = allLeads.filter(function(l){ return l.source === filter; }); }
+  else { filtered = allLeads.filter(function(l){ return l.status === filter; }); }
+
+  var tbody = document.getElementById('leads-tbody');
+  if (!tbody) return;
+
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="9"><div class="empty-leads"><div class="empty-leads-icon">📋</div><div class="empty-leads-title">No leads todavía</div><div style="font-size:13px;color:var(--muted)">Cuando alguien llene un formulario en tu sitio, aparecerá aquí.</div></div></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(function(l) {
+    var d = new Date(l.date);
+    var dateStr = d.toLocaleDateString('es', {month:'short',day:'numeric',year:'numeric'});
+    var timeStr = d.toLocaleTimeString('es', {hour:'2-digit',minute:'2-digit'});
+    var srcBadge = l.source === 'sell'
+      ? '<span class="badge badge-sell">🏠 Sell</span>'
+      : '<span class="badge badge-contact-src">✉️ Contact</span>';
+    var addressOrTopic = l.address || l.topic || '—';
+    var situationOrMsg = l.situation || (l.message ? l.message.substring(0,60) + (l.message.length > 60 ? '…' : '') : '—');
+    return '<tr>' +
+      '<td style="font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap">' + dateStr + '<br>' + timeStr + '</td>' +
+      '<td>' + srcBadge + '</td>' +
+      '<td><strong>' + (l.name || '—') + '</strong></td>' +
+      '<td>' + (l.phone ? '<a href="tel:' + l.phone + '" style="color:var(--gold)">' + l.phone + '</a>' : '—') + '</td>' +
+      '<td style="font-size:12px;color:var(--muted)">' + (l.email || '—') + '</td>' +
+      '<td style="max-width:160px;font-size:12px">' + addressOrTopic + '</td>' +
+      '<td style="max-width:160px;font-size:12px;color:var(--muted)">' + situationOrMsg + '</td>' +
+      '<td><select class="lead-status-sel" onchange="updateLeadStatus(' + l.id + ', this.value)">' +
+        '<option value="new"' + (l.status==='new'?' selected':'') + '>🔴 Nuevo</option>' +
+        '<option value="contacted"' + (l.status==='contacted'?' selected':'') + '>🟡 Contactado</option>' +
+        '<option value="closed"' + (l.status==='closed'?' selected':'') + '>🟢 Cerrado</option>' +
+      '</select></td>' +
+      '<td><button class="btn btn-sm btn-danger" onclick="deleteLead(' + l.id + ')">Del</button></td>' +
+    '</tr>';
+  }).join('');
+}
+
+function filterLeads(filter, btn) {
+  _currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderLeads(filter);
+}
+
+function updateLeadStatus(id, status) {
+  var leads = getLeads();
+  var idx = leads.findIndex(function(l) { return l.id === id; });
+  if (idx > -1) {
+    leads[idx].status = status;
+    localStorage.setItem('p714_leads', JSON.stringify(leads));
+    updateLeadsBadge();
+    updateDashboard();
+  }
+}
+
+function deleteLead(id) {
+  if (!confirm('¿Eliminar este lead?')) return;
+  var leads = getLeads().filter(function(l) { return l.id !== id; });
+  localStorage.setItem('p714_leads', JSON.stringify(leads));
+  renderLeads();
+  updateDashboard();
+  updateLeadsBadge();
+}
+
+function clearAllLeads() {
+  if (!confirm('¿Borrar TODOS los leads? Esta acción no se puede deshacer.')) return;
+  localStorage.setItem('p714_leads', '[]');
+  renderLeads();
+  updateDashboard();
+  updateLeadsBadge();
+}
+
+function exportLeadsCSV() {
+  var leads = getLeads();
+  if (!leads.length) { alert('No hay leads para exportar.'); return; }
+  var headers = ['Fecha','Fuente','Nombre','Teléfono','Email','Dirección/Tema','Situación/Mensaje','Estado'];
+  var rows = leads.map(function(l) {
+    return [
+      new Date(l.date).toLocaleString(),
+      l.source, l.name || '', l.phone || '', l.email || '',
+      l.address || l.topic || '',
+      l.situation || l.message || '',
+      l.status
+    ];
+  });
+  var csv = [headers].concat(rows).map(function(r) {
+    return r.map(function(v) { return '"' + String(v||'').replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'p714-leads.csv'; a.click();
+  setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+}
+
+function updateLeadsBadge() {
+  var newCount = getLeads().filter(function(l) { return l.status === 'new'; }).length;
+  var badge = document.getElementById('leads-badge');
+  if (!badge) return;
+  if (newCount > 0) {
+    badge.textContent = newCount;
+    badge.style.display = 'inline-flex';
+  } else {
+    badge.style.display = 'none';
+  }
 }
 
 // ============================================================
 // DASHBOARD
 // ============================================================
 function updateDashboard() {
-  const props  = getProps();
-  const testis = getTestis();
-  const cfg    = getData().siteconfig || {};
-  const avail  = props.filter(p => p.status === 'avail').length;
+  var props   = getProps();
+  var testis  = getTestis();
+  var leads   = getLeads();
+  var cfg     = getData().siteconfig || {};
+  var avail   = props.filter(function(p) { return p.status === 'avail'; }).length;
+  var newLeads = leads.filter(function(l) { return l.status === 'new'; }).length;
 
-  document.getElementById('dash-stats').innerHTML = `
-    <div class="dash-stat"><div class="ds-icon">🏡</div><div class="ds-val">${props.length}</div><div class="ds-lbl">Total properties</div></div>
-    <div class="dash-stat"><div class="ds-icon">🟢</div><div class="ds-val">${avail}</div><div class="ds-lbl">Available</div></div>
-    <div class="dash-stat"><div class="ds-icon">⭐</div><div class="ds-val">${testis.length}</div><div class="ds-lbl">Testimonials</div></div>
-    <div class="dash-stat"><div class="ds-icon">📞</div><div class="ds-val" style="font-size:16px">${cfg.phoneDisplay || '(404) 590-1613'}</div><div class="ds-lbl">Phone</div></div>
-  `;
+  document.getElementById('dash-stats').innerHTML =
+    '<div class="dash-stat clickable" onclick="switchTabById(\'leads\')" title="Ver leads">' +
+      '<div class="ds-icon">📋</div>' +
+      '<div class="ds-val" style="' + (newLeads > 0 ? 'color:var(--danger)' : '') + '">' + leads.length + '</div>' +
+      '<div class="ds-lbl">Leads totales</div>' +
+      (newLeads > 0 ? '<div style="font-size:11px;color:var(--danger);margin-top:4px;font-family:var(--mono)">' + newLeads + ' nuevos</div>' : '') +
+    '</div>' +
+    '<div class="dash-stat"><div class="ds-icon">🏡</div><div class="ds-val">' + props.length + '</div><div class="ds-lbl">Properties</div></div>' +
+    '<div class="dash-stat"><div class="ds-icon">🟢</div><div class="ds-val">' + avail + '</div><div class="ds-lbl">Available</div></div>' +
+    '<div class="dash-stat"><div class="ds-icon">📞</div><div class="ds-val" style="font-size:16px">' + (cfg.phoneDisplay || '(404) 590-1613') + '</div><div class="ds-lbl">Phone</div></div>';
 }
 </script>
 </body>
