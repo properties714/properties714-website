@@ -9,6 +9,58 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
+  <!-- Canonical -->
+  <link rel="canonical" href="https://www.properties714.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.properties714.com/" />
+  <meta property="og:title" content="Properties714 — We Buy Houses Fast in Georgia | Cash Offers in 24h" />
+  <meta property="og:description" content="Get a fair cash offer for your Georgia home in 24 hours. No repairs, no commissions, no fees. Properties714 has purchased 100+ homes across Georgia." />
+  <meta property="og:site_name" content="Properties714 LLC" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Properties714 — We Buy Houses Fast in Georgia" />
+  <meta name="twitter:description" content="Cash offers in 24h. No repairs, no fees, close in 7 days." />
+
+  <!-- SEO Keywords & Geo -->
+  <meta name="keywords" content="we buy houses Atlanta, sell house fast Georgia, cash home buyers Atlanta, sell my house fast, cash offer Georgia, we buy houses Georgia, sell house as-is Atlanta, real estate investor Atlanta, Properties714, we buy houses Norcross, cash buyers Marietta, sell house Decatur GA" />
+  <meta name="geo.region" content="US-GA" />
+  <meta name="geo.placename" content="Atlanta, Georgia" />
+  <meta name="author" content="Properties714 LLC" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "Properties714 LLC",
+    "url": "https://www.properties714.com",
+    "telephone": "+14045901613",
+    "email": "properties714llc@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Atlanta",
+      "addressRegion": "GA",
+      "addressCountry": "US"
+    },
+    "areaServed": {"@type": "State", "name": "Georgia"},
+    "description": "Properties714 LLC buys houses fast throughout Georgia. Cash offers within 24 hours, no repairs needed, zero fees or commissions. Close in as little as 7 days.",
+    "openingHours": "Mo-Fr 08:00-20:00",
+    "priceRange": "$$",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Cash Home Buying Services",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Cash Home Purchase - As-Is"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "24-Hour Cash Offer"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "7-Day Closing"}}
+      ]
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -75,10 +127,10 @@
         <div class="hfc-title">Get your cash offer today</div>
         <div class="hfc-sub">Free · No obligation · 2 minutes</div>
         <form class="hfc-form" onsubmit="handleForm(event)">
-          <div class="hfc-field"><label>Property address</label><input type="text" placeholder="1234 Peachtree Blvd, Atlanta, GA" required /></div>
+          <div class="hfc-field"><label>Property address</label><input id="hf-address" type="text" name="address" placeholder="1234 Peachtree Blvd, Atlanta, GA" required autocomplete="street-address" /></div>
           <div class="hfc-row">
-            <div class="hfc-field"><label>Your name</label><input type="text" placeholder="John Smith" required /></div>
-            <div class="hfc-field"><label>Phone</label><input type="tel" placeholder="(404) 555-0000" required /></div>
+            <div class="hfc-field"><label>Your name</label><input id="hf-name" type="text" name="name" placeholder="John Smith" required autocomplete="name" /></div>
+            <div class="hfc-field"><label>Phone</label><input id="hf-phone" type="tel" name="phone" placeholder="(404) 555-0000" required autocomplete="tel" /></div>
           </div>
           <button type="submit" class="btn-gold btn-full">Get my cash offer →</button>
           <p class="hfc-privacy">🔒 We respect your privacy. No spam, ever.</p>
