@@ -164,11 +164,82 @@
     }, 4000);
   }
 
+  // ── Rotating hero text ─────────────────────────────────────────
+  var ROTATING_WORDS = ['fast.', 'stress-free.', 'as-is.', 'before foreclosure.', 'for cash.', 'in 7 days.'];
+
+  function initRotatingText() {
+    var el = document.getElementById('rotating-word');
+    if (!el) return;
+    var idx = 0;
+    setInterval(function () {
+      el.classList.add('word-exit');
+      setTimeout(function () {
+        idx = (idx + 1) % ROTATING_WORDS.length;
+        el.textContent = ROTATING_WORDS[idx];
+        el.classList.remove('word-exit');
+      }, 360);
+    }, 2700);
+  }
+
+  // ── Video modal ────────────────────────────────────────────────
+  function initVideoModal() {
+    var modal = document.getElementById('video-modal');
+    if (!modal) return;
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) window.closeVideoModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        window.closeVideoModal();
+      }
+    });
+  }
+
+  window.openVideoModal = function () {
+    var modal = document.getElementById('video-modal');
+    var frame = document.getElementById('modal-video-frame');
+    var noop = document.getElementById('modal-video-noop');
+    var heroVideo = document.getElementById('hero-video');
+    if (!modal) return;
+
+    var src = (heroVideo && heroVideo.src) ? heroVideo.src : '';
+    var hasVideo = src.length > 10 && src.indexOf('http') === 0 && !src.endsWith(window.location.href);
+
+    if (frame) {
+      if (hasVideo) {
+        frame.src = src + (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
+        frame.style.display = 'block';
+      } else {
+        frame.src = '';
+        frame.style.display = 'none';
+      }
+    }
+    if (noop) noop.style.display = hasVideo ? 'none' : 'flex';
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeVideoModal = function () {
+    var modal = document.getElementById('video-modal');
+    var frame = document.getElementById('modal-video-frame');
+    if (!modal) return;
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(function () {
+      if (frame) { frame.src = ''; frame.style.display = 'none'; }
+      var noop = document.getElementById('modal-video-noop');
+      if (noop) noop.style.display = 'flex';
+    }, 350);
+  };
+
   // ── Init all ───────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
     initReveal();
     initCounters();
     initTicker();
+    initRotatingText();
+    initVideoModal();
     initFAB();
     initNav();
     initMobileMenu();

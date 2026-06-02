@@ -174,39 +174,55 @@
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg-overlay"></div>
-  <div class="hero-inner">
-    <div class="hero-copy" data-reveal="left">
+<!-- HERO V3 -->
+<section class="hero-v3" id="hero">
+  <!-- Animated background orbs -->
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+  <!-- Giant 714 watermark -->
+  <div class="hero-watermark" aria-hidden="true">714</div>
+
+  <div class="hero-v3-inner">
+
+    <!-- Left: copy -->
+    <div class="hero-v3-copy" data-reveal="left">
       <div class="activity-ticker"><span class="activity-ticker-dot"></span><span id="activity-ticker-text">Loading...</span></div>
-      <div class="hero-badge"><span class="badge-dot"></span> <span class="hero-badge-text">Georgia Real Estate Investors</span></div>
-      <h1 class="hero-heading">Sell your house<br><em>fast, as-is,</em><br>for cash.</h1>
-      <p class="hero-sub">No repairs. No commissions. No open houses.<br>Close in as little as 7 days — you pick the date.</p>
+      <div class="hero-badge" style="margin-bottom:20px"><span class="badge-dot"></span> <span class="hero-badge-text">Georgia Cash Home Buyers</span></div>
+      <h1 class="hero-heading">We buy<br>your house<br><em><span id="rotating-word">fast.</span></em></h1>
+      <p class="hero-sub" style="margin-top:20px">No repairs. No commissions. No open houses.<br>Close in as little as 7 days — you pick the date.</p>
+      <div class="situation-pills">
+        <span class="pill">Foreclosure</span>
+        <span class="pill">Inherited</span>
+        <span class="pill">Divorce</span>
+        <span class="pill">As-Is</span>
+        <span class="pill">Behind on payments</span>
+        <span class="pill">Any situation</span>
+      </div>
       <div class="hero-actions">
         <a href="/sell.html" class="btn-gold btn-lg">Get my free cash offer</a>
-        <a href="#how-it-works" class="btn-ghost btn-lg">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-          How it works
-        </a>
+        <button type="button" class="btn-ghost btn-lg" onclick="openVideoModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+          Watch our story
+        </button>
       </div>
-      <div class="hero-trust">
+      <div class="hero-trust" style="margin-top:28px">
         <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>No repairs needed</span></div>
         <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Zero commissions or fees</span></div>
         <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Close in as little as 7 days</span></div>
       </div>
     </div>
-    <div class="hero-visual" data-reveal="right">
-      <div class="hero-video-wrap">
-        <div class="video-label">Who we are</div>
-        <iframe id="hero-video" src="" title="Who is Properties714" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none"></iframe>
-        <div class="video-placeholder" id="video-placeholder">
-          <div class="vp-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg></div>
-          <div class="vp-title">Who is Properties714?</div>
-          <div class="vp-sub">Update via Admin → Hero &amp; Video</div>
-        </div>
+
+    <!-- Right: glassmorphism form + floating review card -->
+    <div class="hero-v3-visual" data-reveal="right">
+      <!-- Floating review card -->
+      <div class="hero-review-card" aria-hidden="true">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"Closed in 8 days. Zero stress."</div>
+        <div class="review-author">— Maria S., Marietta GA</div>
       </div>
-      <div class="hero-form-card">
+      <!-- Glassmorphism form -->
+      <div class="hero-form-card hero-form-glass">
         <div class="hfc-title">Get your cash offer today</div>
         <div class="hfc-sub">Free · No obligation · 2 minutes</div>
         <form class="hfc-form" onsubmit="handleHeroForm(event)">
@@ -220,8 +236,41 @@
         </form>
       </div>
     </div>
+
   </div>
-  <div class="hero-stats">
+
+  <!-- City marquee -->
+  <div class="city-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="marquee-city">Atlanta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Marietta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Decatur</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Norcross</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Savannah</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Augusta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Macon</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Stone Mountain</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Smyrna</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Lawrenceville</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Columbus</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Duluth</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Atlanta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Marietta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Decatur</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Norcross</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Savannah</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Augusta</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Macon</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Stone Mountain</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Smyrna</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Lawrenceville</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Columbus</span><span class="marquee-sep">·</span>
+      <span class="marquee-city">Duluth</span><span class="marquee-sep">·</span>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats hero-stats-v3">
     <div class="stat-item" data-reveal data-delay="1"><span class="stat-val" data-count="100" data-suffix="+">100+</span><span class="stat-lbl">Homes purchased in GA</span></div>
     <div class="stat-divider"></div>
     <div class="stat-item" data-reveal data-delay="2"><span class="stat-val" data-count="7" data-suffix="">7</span><span class="stat-lbl">Day minimum close</span></div>
@@ -233,6 +282,24 @@
     <div class="stat-item" data-reveal data-delay="5"><span class="stat-val">5★</span><span class="stat-lbl">Seller satisfaction</span></div>
   </div>
 </section>
+
+<!-- Video modal (apply-config.js: sets #hero-video.src to populate modal) -->
+<div class="video-modal" id="video-modal">
+  <div class="video-modal-wrap">
+    <button class="video-modal-close" type="button" aria-label="Close video" onclick="closeVideoModal()">✕</button>
+    <div class="video-modal-body">
+      <iframe id="modal-video-frame" src="" title="Properties714 — Our Story" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="video-modal-noop" id="modal-video-noop">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        <p>Who is Properties714?</p>
+        <small>Set video URL via Admin panel</small>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Hidden: kept for apply-config.js compatibility -->
+<iframe id="hero-video" src="" title="Who is Properties714" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:none" aria-hidden="true"></iframe>
+<div id="video-placeholder" style="display:none" aria-hidden="true"><div class="vp-title">Who is Properties714?</div><div class="vp-sub">Update via Admin → Hero &amp; Video</div></div>
 
 <!-- TRUST BAR -->
 <div class="trust-bar">
