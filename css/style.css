@@ -434,9 +434,23 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
   flex-direction:column;
   padding-top:var(--nav-h);
   overflow:hidden;
-  background:
-    linear-gradient(to right, rgba(8,7,5,0.90) 0%, rgba(8,7,5,0.72) 45%, rgba(8,7,5,0.40) 100%),
-    url('/images/hero-bg.png?v=2') center/cover no-repeat;
+  /* Overlay only — image lives in ::before so we can apply CSS filter */
+  background:linear-gradient(
+    108deg,
+    rgba(4,3,2,0.68) 0%,
+    rgba(4,3,2,0.48) 28%,
+    rgba(4,3,2,0.04) 58%,
+    transparent 100%
+  );
+}
+/* Vivid background image via pseudo-element */
+.hero-v3::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:url('/images/hero-bg.png?v=2') center 30%/cover no-repeat;
+  filter:saturate(1.55) brightness(1.1) contrast(1.08);
+  z-index:-1;
 }
 
 /* ── Background orbs ───────────────────────────────────────── */
@@ -458,8 +472,12 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 @keyframes heroFadeRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
 
 /* ── Heading override — bigger and bolder ──────────────────── */
-.hero-v3 .hero-heading{font-size:clamp(52px,6.5vw,92px);letter-spacing:-0.04em;line-height:0.97;color:#fff}
-.hero-v3 .hero-heading em{color:var(--gold);font-style:italic;text-shadow:0 0 60px rgba(201,168,76,0.3)}
+.hero-v3 .hero-heading{font-size:clamp(52px,6.5vw,92px);letter-spacing:-0.04em;line-height:0.97;color:#fff;text-shadow:0 3px 40px rgba(0,0,0,0.7),0 1px 8px rgba(0,0,0,0.5)}
+.hero-v3 .hero-heading em{color:var(--gold);font-style:italic;text-shadow:0 0 80px rgba(201,168,76,0.55),0 3px 40px rgba(0,0,0,0.6)}
+.hero-v3 .hero-sub{text-shadow:0 2px 16px rgba(0,0,0,0.65)}
+.hero-v3 .trust-item{text-shadow:0 1px 8px rgba(0,0,0,0.5)}
+.hero-v3 .activity-ticker{text-shadow:none}
+.hero-v3 .hero-badge{text-shadow:none}
 
 /* ── Rotating word animation ───────────────────────────────── */
 @keyframes word-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
