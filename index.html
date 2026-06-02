@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6" />
+  <link rel="stylesheet" href="/css/style.css?v=7" />
   <!-- Canonical -->
   <link rel="canonical" href="https://www.properties714.com/" />
 
@@ -187,8 +187,15 @@
 
     <!-- Left: copy -->
     <div class="hero-v3-copy">
-      <div class="activity-ticker"><span class="activity-ticker-dot"></span><span id="activity-ticker-text">Loading...</span></div>
-      <div class="hero-badge" style="margin-bottom:20px"><span class="badge-dot"></span> <span class="hero-badge-text">Georgia Cash Home Buyers</span></div>
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        <span>Georgia</span>
+        <span class="eyebrow-divider">·</span>
+        <span>Cash Home Buyers</span>
+        <span class="eyebrow-divider">·</span>
+        <span>100+ Closings</span>
+      </div>
+      <div class="hero-accent-line"></div>
       <h1 class="hero-heading">We buy<br>your house<br><em><span id="rotating-word">fast.</span></em></h1>
       <p class="hero-sub" style="margin-top:20px">No repairs. No commissions. No open houses.<br>Close in as little as 7 days — you pick the date.</p>
       <div class="situation-pills">
@@ -527,6 +534,40 @@
   </div>
   <div class="footer-bottom"><span>© 2026 Properties714 LLC · All Rights Reserved</span><span>Licensed Real Estate Company · Georgia</span></div>
 </footer>
+
+<!-- AI Chat Widget -->
+<div id="p714-chat" class="p714-chat">
+  <div class="chat-teaser" id="chat-teaser">
+    <strong>💬</strong> Get your cash offer — chat now
+    <button class="chat-teaser-x" onclick="event.stopPropagation();chatDismissTeaser()" aria-label="Close">×</button>
+  </div>
+  <button class="chat-bubble" id="chat-bubble" onclick="chatToggle()" aria-label="Open chat">
+    <div class="chat-bubble-icon" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="chat-notif" id="chat-notif">1</div>
+  </button>
+  <div class="chat-window" id="chat-window" role="dialog" aria-label="Properties714 AI Chat">
+    <div class="chat-header">
+      <div class="chat-agent">
+        <div class="chat-av">714</div>
+        <div>
+          <div class="chat-agent-name">Properties714 AI</div>
+          <div class="chat-agent-status">Online now</div>
+        </div>
+      </div>
+      <button class="chat-close-btn" onclick="chatToggle()" aria-label="Close chat">✕</button>
+    </div>
+    <div class="chat-messages" id="chat-msgs"></div>
+    <div class="chat-input-area">
+      <div class="chat-qr" id="chat-qr"></div>
+      <div class="chat-input-row" id="chat-input-row" style="display:none">
+        <input type="text" id="chat-inp" placeholder="Type here..." autocomplete="off" />
+        <button class="chat-send" id="chat-send" onclick="chatSend()" aria-label="Send">→</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Site enhancements, lead capture & animations -->
 <script src="/js/leads.js"></script>
