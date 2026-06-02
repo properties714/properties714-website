@@ -1,7 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
 
+# Sitemaps
 Sitemap: https://www.properties714.com/sitemap.xml
 
-# Keep admin private
-Disallow: /admin/
+# Crawl-delay for well-behaved bots
+Crawl-delay: 1

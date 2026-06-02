@@ -1,12 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <url><loc>https://www.properties714.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.properties714.com/sell.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.properties714.com/properties.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.properties714.com/investors.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.properties714.com/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://www.properties714.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://www.properties714.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <url>
+    <loc>https://www.properties714.com/</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&amp;h=630&amp;q=80&amp;auto=format&amp;fit=crop</image:loc>
+      <image:title>Properties714 — We Buy Houses Fast in Georgia</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/sell.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&amp;h=630&amp;q=80&amp;auto=format&amp;fit=crop</image:loc>
+      <image:title>Sell Your House Fast for Cash in Georgia</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/properties.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&amp;h=630&amp;q=80&amp;auto=format&amp;fit=crop</image:loc>
+      <image:title>Below-Market Homes for Sale in Georgia</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/investors.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/blog.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&amp;h=630&amp;q=80&amp;auto=format&amp;fit=crop</image:loc>
+      <image:title>Real Estate Blog — Georgia Home Selling &amp; Investing Tips</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/about.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.properties714.com/contact.html</loc>
+    <lastmod>2026-06-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
 </urlset>
