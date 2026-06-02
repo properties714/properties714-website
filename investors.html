@@ -65,17 +65,17 @@
         <h2 style="font-size:28px;margin-bottom:8px">Get on our investor list</h2>
         <p style="font-size:14px;color:var(--cream-2)">Tell us what you're looking for and we'll send you matching deals as we find them.</p>
       </div>
-      <form onsubmit="handleForm(event)">
+      <form onsubmit="handleInvestorForm(event)">
         <div class="form-grid">
-          <div class="form-field"><label>Name *</label><input type="text" placeholder="Your name" required /></div>
-          <div class="form-field"><label>Phone *</label><input type="tel" placeholder="(404) 555-0000" required /></div>
-          <div class="form-field"><label>Email *</label><input type="email" placeholder="investor@email.com" required /></div>
+          <div class="form-field"><label>Name *</label><input id="inv-name" type="text" placeholder="Your name" required /></div>
+          <div class="form-field"><label>Phone *</label><input id="inv-phone" type="tel" placeholder="(404) 555-0000" required /></div>
+          <div class="form-field"><label>Email *</label><input id="inv-email" type="email" placeholder="investor@email.com" required /></div>
           <div class="form-field"><label>Strategy</label>
-            <select><option value="">Your strategy</option><option>Wholesale / Assignment</option><option>Fix &amp; Flip</option><option>Buy &amp; Hold</option><option>Joint Venture</option><option>All of the above</option></select>
+            <select id="inv-strategy"><option value="">Your strategy</option><option>Wholesale / Assignment</option><option>Fix &amp; Flip</option><option>Buy &amp; Hold</option><option>Joint Venture</option><option>All of the above</option></select>
           </div>
-          <div class="form-field"><label>Buying area</label><input type="text" placeholder="Atlanta, Macon, all of GA..." /></div>
+          <div class="form-field"><label>Buying area</label><input id="inv-area" type="text" placeholder="Atlanta, Macon, all of GA..." /></div>
           <div class="form-field"><label>Budget range</label>
-            <select><option value="">Select range</option><option>Under $100K</option><option>$100K – $200K</option><option>$200K – $400K</option><option>$400K+</option></select>
+            <select id="inv-budget"><option value="">Select range</option><option>Under $100K</option><option>$100K – $200K</option><option>$200K – $400K</option><option>$400K+</option></select>
           </div>
           <div class="form-submit-wrap">
             <button type="submit" class="btn-gold btn-full" style="height:50px;font-size:15px">Join investor network →</button>
@@ -88,8 +88,6 @@
 </section>
 
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><div class="footer-logo">Properties<span>714</span></div><p class="footer-tagline">Serious About Buying.<br>Serious About Closing.</p><div class="footer-contact"><a href="tel:4045901613">(404) 590-1613</a><span>📍 Serving all of Georgia</span></div></div><div class="footer-col"><div class="footer-col-title">Sellers</div><a href="/sell.html">Get cash offer</a></div><div class="footer-col"><div class="footer-col-title">Properties</div><a href="/properties.html">Browse listings</a></div><div class="footer-col"><div class="footer-col-title">Company</div><a href="/about.html">About</a><a href="/contact.html">Contact</a></div></div><div class="footer-bottom"><span>© 2026 Properties714 LLC</span></div></footer>
-<script>
-function handleForm(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');btn.textContent='✓ Added to investor list!';btn.style.background='#1a5c38';btn.disabled=true;}
-document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.toggle('open'));
-</script>
+<script src="/js/leads.js"></script>
+<script src="/js/site.js"></script>
 </body></html>

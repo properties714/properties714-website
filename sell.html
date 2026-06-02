@@ -27,9 +27,9 @@
 
 <div class="page-hero">
   <div class="section-inner">
-    <div class="eyebrow">Sell your house</div>
-    <h1>Get a fair cash offer<br><em>in 24 hours.</em></h1>
-    <p>No repairs, no showings, no commissions. We buy houses in any condition across Georgia. You pick the closing date.</p>
+    <div class="eyebrow" data-reveal>Sell your house</div>
+    <h1 data-reveal data-delay="1">Get a fair cash offer<br><em>in 24 hours.</em></h1>
+    <p data-reveal data-delay="2">No repairs, no showings, no commissions. We buy houses in any condition across Georgia. You pick the closing date.</p>
   </div>
 </div>
 
@@ -38,7 +38,7 @@
     <div class="form-card">
       <h2 style="font-size:26px;margin-bottom:8px">Request your cash offer</h2>
       <p style="font-size:14px;color:var(--cream-2);margin-bottom:32px">Fill out the form and we'll contact you within 24 hours with a no-obligation cash offer.</p>
-      <form onsubmit="handleForm(event)">
+      <form onsubmit="handleSellForm(event)">
         <div class="form-grid">
           <div class="form-field full"><label>Property address *</label><input id="sell-address" type="text" placeholder="1234 Peachtree Blvd, Atlanta, GA 30309" required /></div>
           <div class="form-field"><label>Your name *</label><input id="sell-name" type="text" placeholder="John Smith" required /></div>
@@ -95,35 +95,6 @@
   </div>
   <div class="footer-bottom"><span>© 2026 Properties714 LLC · All Rights Reserved</span><span>Georgia</span></div>
 </footer>
-<script>
-function saveLead(lead) {
-  try {
-    var leads = JSON.parse(localStorage.getItem('p714_leads') || '[]');
-    leads.unshift(lead);
-    localStorage.setItem('p714_leads', JSON.stringify(leads));
-  } catch(err) { console.error('Could not save lead', err); }
-}
-
-function handleForm(e) {
-  e.preventDefault();
-  var lead = {
-    id: Date.now(),
-    source: 'sell',
-    date: new Date().toISOString(),
-    name:      (document.getElementById('sell-name')      || {value:''}).value.trim(),
-    phone:     (document.getElementById('sell-phone')     || {value:''}).value.trim(),
-    email:     (document.getElementById('sell-email')     || {value:''}).value.trim(),
-    address:   (document.getElementById('sell-address')   || {value:''}).value.trim(),
-    situation: (document.getElementById('sell-situation') || {value:''}).value,
-    message:   (document.getElementById('sell-notes')     || {value:''}).value.trim(),
-    status: 'new'
-  };
-  saveLead(lead);
-  var btn = e.target.querySelector('button[type="submit"]');
-  btn.textContent = '✓ Received! We\'ll call you within 24h';
-  btn.style.background = '#1a5c38';
-  btn.disabled = true;
-}
-document.getElementById('hamburger').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('open'); });
-</script>
+<script src="/js/leads.js"></script>
+<script src="/js/site.js"></script>
 </body></html>

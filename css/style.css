@@ -305,3 +305,114 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 ::-webkit-scrollbar-track{background:var(--black)}
 ::-webkit-scrollbar-thumb{background:var(--gold-border);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+
+/* ══════════════════════════════════════════════════════════════
+   PROPERTIES714 — PREMIUM UPGRADES v2
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Scroll reveal animations ──────────────────────────────── */
+[data-reveal]{opacity:0;transform:translateY(32px);transition:opacity 0.7s var(--ease),transform 0.7s var(--ease)}
+[data-reveal].revealed{opacity:1;transform:translateY(0)}
+[data-reveal][data-delay="1"]{transition-delay:0.1s}
+[data-reveal][data-delay="2"]{transition-delay:0.2s}
+[data-reveal][data-delay="3"]{transition-delay:0.3s}
+[data-reveal][data-delay="4"]{transition-delay:0.4s}
+[data-reveal][data-delay="5"]{transition-delay:0.5s}
+
+/* Slide from left/right */
+[data-reveal="left"]{transform:translateX(-32px)}
+[data-reveal="left"].revealed{transform:translateX(0)}
+[data-reveal="right"]{transform:translateX(32px)}
+[data-reveal="right"].revealed{transform:translateX(0)}
+[data-reveal="scale"]{transform:scale(0.94)}
+[data-reveal="scale"].revealed{transform:scale(1)}
+
+/* ── Button spinner ─────────────────────────────────────────── */
+@keyframes btn-spin{to{transform:rotate(360deg)}}
+.btn-spinner{animation:btn-spin 0.8s linear infinite;display:inline-block;margin-right:4px}
+
+/* ── Activity ticker ────────────────────────────────────────── */
+.activity-ticker{display:inline-flex;align-items:center;gap:10px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);border-radius:99px;padding:7px 16px;font-size:13px;color:#86efac;margin-bottom:24px;width:fit-content}
+.activity-ticker-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse-green 2s ease infinite;flex-shrink:0}
+#activity-ticker-text{transition:opacity 0.35s ease,transform 0.35s ease}
+@keyframes pulse-green{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(74,222,128,0.4)}50%{opacity:0.7;box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+
+/* ── Floating action buttons (FAB) ─────────────────────────── */
+.p714-fab{position:fixed;bottom:28px;right:28px;z-index:990;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.p714-fab-btn{display:flex;align-items:center;gap:10px;padding:13px 20px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;box-shadow:0 4px 24px rgba(0,0,0,0.5);transition:transform 200ms,box-shadow 200ms,opacity 200ms;white-space:nowrap}
+.p714-fab-btn:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.6)}
+.p714-fab-wa{background:#25D366;color:#fff}
+.p714-fab-call{background:var(--gold);color:#0c0b09}
+@media(max-width:600px){
+  .p714-fab{bottom:16px;right:16px}
+  .p714-fab-btn span{display:none}
+  .p714-fab-btn{padding:14px;border-radius:50%}
+}
+
+/* ── Toast notifications ────────────────────────────────────── */
+.toast-container{position:fixed;top:86px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;max-width:360px}
+.p714-toast{background:rgba(28,26,18,0.96);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius-lg);padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:13.5px;color:var(--cream);box-shadow:0 8px 32px rgba(0,0,0,0.6);pointer-events:auto;backdrop-filter:blur(12px);animation:toast-in 0.35s var(--ease) forwards}
+.p714-toast--success{border-color:rgba(34,197,94,0.3)}
+.p714-toast--success .p714-toast-icon{color:#4ade80}
+.p714-toast--error{border-color:rgba(239,68,68,0.3)}
+.p714-toast--error .p714-toast-icon{color:#f87171}
+.p714-toast-icon{flex-shrink:0}
+.p714-toast-msg{line-height:1.45}
+.p714-toast--out{animation:toast-out 0.35s var(--ease) forwards}
+@keyframes toast-in{from{opacity:0;transform:translateX(110%)}to{opacity:1;transform:translateX(0)}}
+@keyframes toast-out{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(110%)}}
+@media(max-width:600px){.toast-container{top:auto;bottom:100px;right:12px;left:12px;max-width:none}}
+
+/* ── Hero enhancements ──────────────────────────────────────── */
+.hero-bg-overlay{background:
+  radial-gradient(ellipse 55% 50% at 72% 38%,rgba(201,168,76,0.08) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 60% at 15% 85%,rgba(201,168,76,0.05) 0%,transparent 60%),
+  radial-gradient(ellipse 30% 30% at 85% 10%,rgba(201,168,76,0.04) 0%,transparent 50%)}
+
+/* Hero badge pulse */
+.badge-dot{animation:badge-pulse 3s ease infinite}
+@keyframes badge-pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ── Stats bar: animated counters ───────────────────────────── */
+.stat-val{font-family:var(--font-serif);font-size:32px;font-weight:600;color:var(--gold);line-height:1;letter-spacing:-0.01em}
+
+/* ── Section spacing enhancement ───────────────────────────── */
+.who,.how,.properties,.testimonials,.blog,.cta-section{scroll-margin-top:80px}
+
+/* ── Card hover shimmer ─────────────────────────────────────── */
+.who-card,.prop-card,.testi-card,.blog-card,.investor-card{position:relative;overflow:hidden}
+.who-card::after,.prop-card::after,.testi-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.03) 0%,transparent 60%);opacity:0;transition:opacity 300ms;pointer-events:none;border-radius:inherit}
+.who-card:hover::after,.prop-card:hover::after,.testi-card:hover::after{opacity:1}
+
+/* ── Testimonials: active highlight ────────────────────────── */
+.testi-card--active{border-color:var(--gold-border)!important;background:var(--bg-3)!important;transform:scale(1.01)}
+.testi-card{transition:border-color 500ms,background 500ms,transform 500ms}
+
+/* ── Trust logos bar ────────────────────────────────────────── */
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:40px;padding:32px 40px;border-top:1px solid rgba(201,168,76,0.1);border-bottom:1px solid rgba(201,168,76,0.1);background:rgba(0,0,0,0.2)}
+.trust-bar-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em}
+.trust-bar-item svg{color:var(--gold);opacity:0.6;flex-shrink:0}
+@media(max-width:768px){.trust-bar{flex-wrap:wrap;gap:20px;padding:24px 20px}}
+
+/* ── Service areas section ──────────────────────────────────── */
+.areas-section{padding:80px 0;background:var(--bg-2);border-top:1px solid rgba(255,255,255,0.04)}
+.areas-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:40px}
+.area-chip{background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-2);transition:border-color 200ms,color 200ms}
+.area-chip:hover{border-color:var(--gold-border);color:var(--gold)}
+.area-chip svg{color:var(--gold);opacity:0.5;flex-shrink:0}
+@media(max-width:768px){.areas-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── FAQ section ────────────────────────────────────────────── */
+.faq-section{padding:80px 0;background:var(--bg);border-top:1px solid rgba(255,255,255,0.04)}
+.faq-list{display:flex;flex-direction:column;gap:12px;max-width:720px;margin:40px auto 0}
+.faq-item{background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);overflow:hidden;transition:border-color 200ms}
+.faq-item.open{border-color:var(--gold-border)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;cursor:pointer;font-family:var(--font-serif);font-size:18px;font-weight:600;color:var(--cream)}
+.faq-q svg{flex-shrink:0;color:var(--gold);transition:transform 300ms}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s var(--ease)}
+.faq-item.open .faq-a{max-height:400px}
+.faq-a-inner{padding:0 24px 20px;font-size:14px;color:var(--cream-2);line-height:1.8;border-top:1px solid rgba(255,255,255,0.05);padding-top:16px}
+
+/* ── Urgency banner ─────────────────────────────────────────── */
+.urgency-bar{background:linear-gradient(90deg,rgba(201,168,76,0.12),rgba(201,168,76,0.08),rgba(201,168,76,0.12));border-top:1px solid rgba(201,168,76,0.2);border-bottom:1px solid rgba(201,168,76,0.2);padding:10px 40px;text-align:center;font-size:13px;color:var(--gold);font-family:var(--font-mono);letter-spacing:0.05em}
