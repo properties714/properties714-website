@@ -75,13 +75,14 @@
     const origText = btn.innerHTML;
     setBtnState(btn, 'loading');
 
+    const ptype = (document.getElementById('hf-ptype') || {}).value || '';
     const payload = {
       name: (document.getElementById('hf-name') || {}).value || '',
       phone: (document.getElementById('hf-phone') || {}).value || '',
-      email: '',
+      email: (document.getElementById('hf-email') || {}).value || '',
       address: (document.getElementById('hf-address') || {}).value || '',
-      situation: '',
-      notes: '',
+      situation: (document.getElementById('hf-situation') || {}).value || '',
+      notes: ptype ? ('Property type: ' + ptype) : '',
       status: 'new',
       source: 'hero_form'
     };
@@ -90,14 +91,14 @@
       const ok = await submitLead(payload);
       if (ok) {
         setBtnState(btn, 'success');
-        toast('¡Received! We\'ll call you within 24 hours.', 'success');
+        toast('Received! We\'ll review your property and reach out soon.', 'success');
         e.target.reset();
       } else {
         throw new Error('non-ok');
       }
     } catch (_) {
       setBtnState(btn, 'reset', origText);
-      toast('Something went wrong — please call us at (404) 590-1613.', 'error');
+      toast('Something went wrong — please email us at properties714llc@gmail.com', 'error');
     }
   };
 
@@ -123,7 +124,7 @@
       const ok = await submitLead(payload);
       if (ok) {
         setBtnState(btn, 'success');
-        toast('Offer request received! Eduardo will call you within 24 hours.', 'success');
+        toast('Offer request received! We\'ll review it and reach out soon.', 'success');
         e.target.reset();
         // scroll to success confirmation
         document.querySelector('.form-card') && document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -132,7 +133,7 @@
       }
     } catch (_) {
       setBtnState(btn, 'reset', origText);
-      toast('Could not submit. Please call (404) 590-1613 directly.', 'error');
+      toast('Could not submit. Please email us at properties714llc@gmail.com', 'error');
     }
   };
 
@@ -201,7 +202,7 @@
       }
     } catch (_) {
       setBtnState(btn, 'reset', origText);
-      toast('Could not submit. Please call (404) 590-1613.', 'error');
+      toast('Could not submit. Please email us at properties714llc@gmail.com', 'error');
     }
   };
 

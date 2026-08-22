@@ -300,20 +300,6 @@
     });
   }
 
-  // ── Testimonial carousel auto-scroll ─────────────────────────
-  function initTestiCarousel() {
-    var grid = document.querySelector('.testi-grid');
-    if (!grid) return;
-    var cards = grid.querySelectorAll('.testi-card');
-    if (cards.length < 3) return;
-    var current = 1;
-    setInterval(function () {
-      cards.forEach(function (c) { c.classList.remove('testi-card--active'); });
-      current = (current + 1) % cards.length;
-      cards[current].classList.add('testi-card--active');
-    }, 4000);
-  }
-
   // ── Rotating hero text ─────────────────────────────────────────
   var ROTATING_WORDS = ['fast.', 'stress-free.', 'as-is.', 'before foreclosure.', 'for cash.', 'in 7 days.'];
 
@@ -331,57 +317,35 @@
     }, 2700);
   }
 
-  // ── Video modal ────────────────────────────────────────────────
-  function initVideoModal() {
-    var modal = document.getElementById('video-modal');
-    if (!modal) return;
-    modal.addEventListener('click', function (e) {
-      if (e.target === modal) window.closeVideoModal();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && modal.classList.contains('open')) {
-        window.closeVideoModal();
-      }
+  // ── 3D mouse-tilt for "What We Do" cards (desktop, fine pointer only) ──
+  function initTilt() {
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reducedMotion || !canHover) return;
+
+    document.querySelectorAll('.wwd-card').forEach(function (card) {
+      var rect = null;
+      card.addEventListener('mouseenter', function () {
+        rect = card.getBoundingClientRect();
+      });
+      card.addEventListener('mousemove', function (e) {
+        if (!rect) rect = card.getBoundingClientRect();
+        var px = (e.clientX - rect.left) / rect.width;
+        var py = (e.clientY - rect.top) / rect.height;
+        var tiltY = (px - 0.5) * 10;   // left/right mouse position -> rotateY
+        var tiltX = (0.5 - py) * 8;    // up/down mouse position -> rotateX
+        card.style.setProperty('--tiltX', tiltX.toFixed(2) + 'deg');
+        card.style.setProperty('--tiltY', tiltY.toFixed(2) + 'deg');
+        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.setProperty('--tiltX', '0deg');
+        card.style.setProperty('--tiltY', '0deg');
+        rect = null;
+      });
     });
   }
-
-  window.openVideoModal = function () {
-    var modal = document.getElementById('video-modal');
-    var frame = document.getElementById('modal-video-frame');
-    var noop = document.getElementById('modal-video-noop');
-    var heroVideo = document.getElementById('hero-video');
-    if (!modal) return;
-
-    var src = (heroVideo && heroVideo.src) ? heroVideo.src : '';
-    var hasVideo = src.length > 10 && src.indexOf('http') === 0 && !src.endsWith(window.location.href);
-
-    if (frame) {
-      if (hasVideo) {
-        frame.src = src + (src.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
-        frame.style.display = 'block';
-      } else {
-        frame.src = '';
-        frame.style.display = 'none';
-      }
-    }
-    if (noop) noop.style.display = hasVideo ? 'none' : 'flex';
-
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeVideoModal = function () {
-    var modal = document.getElementById('video-modal');
-    var frame = document.getElementById('modal-video-frame');
-    if (!modal) return;
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-    setTimeout(function () {
-      if (frame) { frame.src = ''; frame.style.display = 'none'; }
-      var noop = document.getElementById('modal-video-noop');
-      if (noop) noop.style.display = 'flex';
-    }, 350);
-  };
 
   // ── Init all ───────────────────────────────────────────────────
   document.addEventListener('DOMContentLoaded', function () {
@@ -389,7 +353,7 @@
     initCounters();
     initTicker();
     initRotatingText();
-    initVideoModal();
+    initTilt();
     initChat();
     initNav();
     initMobileMenu();
