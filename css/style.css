@@ -119,13 +119,39 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .stat-divider{width:1px;height:40px;background:rgba(201,168,76,0.15)}
 
 /* WHO */
-.who{padding:100px 0;background:var(--bg-2);border-top:1px solid rgba(201,168,76,0.08)}
-.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.who-card{background:var(--bg-card);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:32px;display:flex;flex-direction:column;gap:16px;transition:border-color 250ms,transform 250ms}
-.who-card:hover{border-color:var(--gold-border);transform:translateY(-4px)}
-.who-card--featured{border-color:var(--gold-border);background:linear-gradient(145deg,var(--bg-3),var(--bg-card));position:relative;overflow:hidden}
+.who{
+  padding:100px 0;
+  background-color:var(--bg-2);
+  background-image:linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px);
+  background-size:44px 44px;
+  background-position:center top;
+  border-top:1px solid rgba(201,168,76,0.08)
+}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.who-card{
+  background:linear-gradient(150deg,rgba(255,255,255,0.055) 0%,rgba(255,255,255,0.012) 45%,rgba(255,255,255,0) 100%),rgba(28,26,18,0.74);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:var(--radius-xl);
+  padding:32px;display:flex;flex-direction:column;gap:16px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.05) inset,0 24px 60px -26px rgba(0,0,0,0.7),0 10px 30px -16px rgba(201,168,76,0.10);
+  transition:border-color 320ms var(--ease),transform 320ms var(--ease),box-shadow 320ms var(--ease)
+}
+.who-card:hover{
+  border-color:var(--gold-border);
+  transform:translateY(-8px) scale(1.015);
+  box-shadow:0 1px 0 rgba(255,255,255,0.08) inset,0 34px 84px -20px rgba(0,0,0,0.72),0 16px 46px -12px rgba(201,168,76,0.22)
+}
+.who-card--featured{
+  border-color:var(--gold-border);
+  background:linear-gradient(150deg,rgba(232,201,122,0.10) 0%,rgba(28,26,18,0.78) 55%),linear-gradient(145deg,var(--bg-3),var(--bg-card));
+  box-shadow:0 1px 0 rgba(255,255,255,0.06) inset,0 28px 70px -24px rgba(0,0,0,0.75),0 14px 44px -14px rgba(201,168,76,0.28);
+  position:relative;overflow:hidden
+}
+.who-card--featured:hover{box-shadow:0 1px 0 rgba(255,255,255,0.08) inset,0 36px 90px -18px rgba(0,0,0,0.78),0 18px 54px -10px rgba(201,168,76,0.36)}
 .who-card--featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-.who-card-icon{width:48px;height:48px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--gold)}
+.who-card-icon{width:48px;height:48px;background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--gold);box-shadow:0 10px 24px -8px rgba(201,168,76,0.35);transition:transform 320ms var(--ease),box-shadow 320ms var(--ease)}
+.who-card:hover .who-card-icon{transform:translateY(-2px) scale(1.06);box-shadow:0 14px 32px -8px rgba(201,168,76,0.5)}
 .who-card h3{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--cream);line-height:1.2}
 .who-card p{font-size:14px;color:var(--cream-2);line-height:1.75}
 .who-list{list-style:none;display:flex;flex-direction:column;gap:6px}
@@ -432,6 +458,19 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .who-card,.prop-card,.testi-card,.blog-card,.investor-card{position:relative;overflow:hidden}
 .who-card::after,.prop-card::after,.testi-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.03) 0%,transparent 60%);opacity:0;transition:opacity 300ms;pointer-events:none;border-radius:inherit}
 .who-card:hover::after,.prop-card:hover::after,.testi-card:hover::after{opacity:1}
+
+/* ── Glass elevation: property / testimonial / blog / investor cards ── */
+.prop-card,.testi-card,.blog-card,.investor-card{
+  background:linear-gradient(150deg,rgba(255,255,255,0.05) 0%,rgba(255,255,255,0.01) 45%,rgba(255,255,255,0) 100%),rgba(28,26,18,0.74);
+  border-radius:var(--radius-xl);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.05) inset,0 22px 54px -26px rgba(0,0,0,0.7),0 8px 26px -16px rgba(201,168,76,0.09);
+  transition:border-color 320ms var(--ease),transform 320ms var(--ease),box-shadow 320ms var(--ease)
+}
+.prop-card:hover,.testi-card:hover,.blog-card:hover,.investor-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 1px 0 rgba(255,255,255,0.07) inset,0 30px 74px -20px rgba(0,0,0,0.72),0 14px 40px -12px rgba(201,168,76,0.18)
+}
 
 /* ── Testimonials: active highlight ────────────────────────── */
 .testi-card--active{border-color:var(--gold-border)!important;background:var(--bg-3)!important;transform:scale(1.01)}
