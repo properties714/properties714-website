@@ -40,14 +40,8 @@
 
   // Video
   const vid = document.getElementById('hero-video');
-  const ph  = document.getElementById('video-placeholder');
   if (vid && hero.videoId && hero.videoId.trim()) {
     vid.src = 'https://www.youtube.com/embed/' + hero.videoId + '?rel=0&modestbranding=1';
-    vid.style.display = 'block';
-    if (ph) ph.style.display = 'none';
-  } else if (vid && !hero.videoId) {
-    vid.style.display = 'none';
-    if (ph) ph.style.display = 'flex';
   }
 
   if (hero.videoLabel) set('.video-label', hero.videoLabel);
