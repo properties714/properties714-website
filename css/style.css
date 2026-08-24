@@ -91,7 +91,7 @@ a{text-decoration:none;color:inherit;transition:color 200ms}
 .btn-gold:hover{background:var(--gold-light);box-shadow:0 0 30px rgba(197,139,69,0.4);transform:translateY(-2px)}
 .btn-gold:active{transform:translateY(0)}
 .btn-gold.btn-lg{padding:15px 34px;font-size:15px}
-.btn-gold.btn-xl{padding:17px 36px;font-size:16px;border-radius:10px;font-weight:700}
+.btn-gold.btn-xl{padding:30px 34px;font-size:16px;border-radius:10px;font-weight:700}
 .btn-gold.btn-full{width:100%;justify-content:center}
 .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--cream-2);border:1px solid rgba(246,241,232,0.2);border-radius:var(--radius);padding:13px 24px;font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:border-color 200ms,color 200ms,background 200ms,transform 150ms var(--spring);white-space:nowrap}
 .btn-ghost:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);transform:translateY(-2px)}
@@ -141,7 +141,7 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .hero-heading{font-family:var(--font-serif);font-size:clamp(44px,5.5vw,76px);font-weight:600;letter-spacing:-0.03em;line-height:1.0;color:var(--cream);margin-bottom:24px}
 .hero-heading em{color:var(--gold);font-style:italic}
 .hero-sub{font-size:17px;color:var(--cream-2);line-height:1.75;margin-bottom:36px;max-width:400px}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:36px}
 .hero-trust{display:flex;flex-direction:column;gap:8px}
 .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-2)}
 .trust-item svg{color:var(--gold);flex-shrink:0}
@@ -187,11 +187,11 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
   transform-style:preserve-3d;
   transform:rotateX(var(--tiltX,0deg)) rotateY(var(--tiltY,0deg));
   transition:transform 500ms var(--spring),box-shadow 400ms var(--ease),border-color 400ms var(--ease);
-  box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 24px 60px -30px rgba(30,35,30,0.16);
-  overflow:hidden;will-change:transform;
+  box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 24px 60px -30px rgba(30,35,30,0.16),0 0 26px -6px rgba(197,139,69,0.2);
+  will-change:transform;
 }
 .hiw-card::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(197,139,69,0.12),transparent 45%);opacity:0;transition:opacity 350ms;pointer-events:none}
-.hiw-card:hover{border-color:var(--gold-border);box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,0 34px 84px -24px rgba(30,35,30,0.22),0 0 0 1px rgba(197,139,69,0.15)}
+.hiw-card:hover{border-color:var(--gold-border);box-shadow:0 1px 0 rgba(255,255,255,0.7) inset,0 34px 84px -24px rgba(30,35,30,0.22),0 0 0 1px rgba(197,139,69,0.15),0 0 60px -4px rgba(197,139,69,0.55)}
 .hiw-card:hover::after{opacity:1}
 .hiw-token{
   width:46px;height:46px;border-radius:13px;margin-bottom:16px;position:relative;flex-shrink:0;
@@ -697,7 +697,7 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 @keyframes heroFadeRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
 
 /* ── Buy / Improve / Sell triptych — the hero's real visual idea ── */
-.hero-triptych{display:flex;gap:12px;margin:24px 0 22px;perspective:1000px}
+.hero-triptych{display:flex;gap:12px;margin:16px 0 14px;perspective:1000px}
 .triptych-panel{
   --baseY:0px;
   position:relative;flex:1;aspect-ratio:3/4;border-radius:14px;overflow:hidden;
@@ -730,12 +730,12 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .hero-v3 .hero-sub{text-shadow:0 2px 16px rgba(0,0,0,0.65)}
 .hero-v3 .trust-item{text-shadow:0 1px 8px rgba(0,0,0,0.5)}
 /* ── Hero eyebrow (replaced activity ticker + badge) ────────── */
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:18px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:10px}
 .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:eyebrow-pulse 2.5s ease-in-out infinite}
 @keyframes eyebrow-pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.5)}50%{box-shadow:0 0 0 6px rgba(201,168,76,0)}}
 .eyebrow-divider{color:rgba(255,255,255,0.2);margin:0 2px}
 /* ── Animated gold accent line ─────────────────────────────── */
-.hero-accent-line{width:52px;height:3px;background:linear-gradient(90deg,var(--gold),rgba(201,168,76,0.15));border-radius:2px;margin-bottom:24px;animation:line-grow 1s 0.7s var(--ease) both;transform-origin:left}
+.hero-accent-line{width:52px;height:3px;background:linear-gradient(90deg,var(--gold),rgba(201,168,76,0.15));border-radius:2px;margin-bottom:14px;animation:line-grow 1s 0.7s var(--ease) both;transform-origin:left}
 @keyframes line-grow{from{width:0;opacity:0}to{width:52px;opacity:1}}
 
 /* ── Rotating word animation ───────────────────────────────── */
