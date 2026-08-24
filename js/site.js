@@ -300,6 +300,24 @@
     });
   }
 
+  // ── FAQ accordion — mouse + keyboard (Enter/Space), no inline onclick ──
+  function initFaq() {
+    document.querySelectorAll('.faq-q').forEach(function (q) {
+      function toggle() {
+        var item = q.parentElement;
+        var open = item.classList.toggle('open');
+        q.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      q.addEventListener('click', toggle);
+      q.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          toggle();
+        }
+      });
+    });
+  }
+
   // ── Rotating hero text ─────────────────────────────────────────
   var ROTATING_WORDS = ['fast.', 'stress-free.', 'as-is.', 'before foreclosure.', 'for cash.', 'in 7 days.'];
 
@@ -358,6 +376,7 @@
     initNav();
     initMobileMenu();
     initSmoothScroll();
+    initFaq();
   });
 
 })();
