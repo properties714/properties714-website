@@ -91,7 +91,7 @@ a{text-decoration:none;color:inherit;transition:color 200ms}
 .btn-gold:hover{background:var(--gold-light);box-shadow:0 0 30px rgba(197,139,69,0.4);transform:translateY(-2px)}
 .btn-gold:active{transform:translateY(0)}
 .btn-gold.btn-lg{padding:15px 34px;font-size:15px}
-.btn-gold.btn-xl{padding:30px 34px;font-size:16px;border-radius:10px;font-weight:700}
+.btn-gold.btn-xl{padding:46px 32px;font-size:16px;border-radius:12px;font-weight:700}
 .btn-gold.btn-full{width:100%;justify-content:center}
 .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--cream-2);border:1px solid rgba(246,241,232,0.2);border-radius:var(--radius);padding:13px 24px;font-family:var(--font-sans);font-size:14px;font-weight:500;cursor:pointer;transition:border-color 200ms,color 200ms,background 200ms,transform 150ms var(--spring);white-space:nowrap}
 .btn-ghost:hover{border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);transform:translateY(-2px)}
@@ -141,7 +141,7 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .hero-heading{font-family:var(--font-serif);font-size:clamp(44px,5.5vw,76px);font-weight:600;letter-spacing:-0.03em;line-height:1.0;color:var(--cream);margin-bottom:24px}
 .hero-heading em{color:var(--gold);font-style:italic}
 .hero-sub{font-size:17px;color:var(--cream-2);line-height:1.75;margin-bottom:36px;max-width:400px}
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:36px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:0}
 .hero-trust{display:flex;flex-direction:column;gap:8px}
 .trust-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cream-2)}
 .trust-item svg{color:var(--gold);flex-shrink:0}
@@ -697,7 +697,7 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 @keyframes heroFadeRight{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
 
 /* ── Buy / Improve / Sell triptych — the hero's real visual idea ── */
-.hero-triptych{display:flex;gap:12px;margin:16px 0 14px;perspective:1000px}
+.hero-triptych{display:flex;gap:12px;margin:12px 0 10px;perspective:1000px}
 .triptych-panel{
   --baseY:0px;
   position:relative;flex:1;aspect-ratio:3/4;border-radius:14px;overflow:hidden;
