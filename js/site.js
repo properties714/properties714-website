@@ -335,33 +335,53 @@
     }, 2700);
   }
 
-  // ── 3D mouse-tilt for "What We Do" cards (desktop, fine pointer only) ──
+  // ── 3D mouse-tilt (desktop, fine pointer only) — shared by What We Do
+  // cards, the hero form, the triptych and the How It Works cards ──
+  function applyTilt(el, opts) {
+    opts = opts || {};
+    var maxY = opts.maxY || 10;   // left/right -> rotateY
+    var maxX = opts.maxX || 8;    // up/down -> rotateX
+    var lift = opts.lift || 0;    // extra translateY on hover (triptych stagger)
+    var scale = opts.scale || 1;
+    var rect = null;
+    el.addEventListener('mouseenter', function () {
+      rect = el.getBoundingClientRect();
+      if (lift) el.style.setProperty('--liftY', -lift + 'px');
+      if (scale !== 1) el.style.setProperty('--liftScale', scale);
+    });
+    el.addEventListener('mousemove', function (e) {
+      if (!rect) rect = el.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      var tiltY = (px - 0.5) * maxY;
+      var tiltX = (0.5 - py) * maxX;
+      el.style.setProperty('--tiltX', tiltX.toFixed(2) + 'deg');
+      el.style.setProperty('--tiltY', tiltY.toFixed(2) + 'deg');
+      el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+      el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    });
+    el.addEventListener('mouseleave', function () {
+      el.style.setProperty('--tiltX', '0deg');
+      el.style.setProperty('--tiltY', '0deg');
+      if (lift) el.style.setProperty('--liftY', '0px');
+      if (scale !== 1) el.style.setProperty('--liftScale', '1');
+      rect = null;
+    });
+  }
+
   function initTilt() {
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (reducedMotion || !canHover) return;
 
-    document.querySelectorAll('.wwd-card').forEach(function (card) {
-      var rect = null;
-      card.addEventListener('mouseenter', function () {
-        rect = card.getBoundingClientRect();
-      });
-      card.addEventListener('mousemove', function (e) {
-        if (!rect) rect = card.getBoundingClientRect();
-        var px = (e.clientX - rect.left) / rect.width;
-        var py = (e.clientY - rect.top) / rect.height;
-        var tiltY = (px - 0.5) * 10;   // left/right mouse position -> rotateY
-        var tiltX = (0.5 - py) * 8;    // up/down mouse position -> rotateX
-        card.style.setProperty('--tiltX', tiltX.toFixed(2) + 'deg');
-        card.style.setProperty('--tiltY', tiltY.toFixed(2) + 'deg');
-        card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-        card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-      });
-      card.addEventListener('mouseleave', function () {
-        card.style.setProperty('--tiltX', '0deg');
-        card.style.setProperty('--tiltY', '0deg');
-        rect = null;
-      });
+    document.querySelectorAll('.wwd-card, .hiw-card').forEach(function (card) {
+      applyTilt(card, { maxY: 10, maxX: 8 });
+    });
+    document.querySelectorAll('.hero-form-card').forEach(function (card) {
+      applyTilt(card, { maxY: 5, maxX: 4 });
+    });
+    document.querySelectorAll('.triptych-panel').forEach(function (panel) {
+      applyTilt(panel, { maxY: 8, maxX: 6, lift: 12, scale: 1.03 });
     });
   }
 
