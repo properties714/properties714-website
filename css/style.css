@@ -142,8 +142,8 @@ h2{font-family:var(--font-serif);font-size:clamp(30px,4vw,50px);font-weight:600;
 .hero-heading em{color:var(--gold);font-style:italic}
 .hero-sub{font-size:17px;color:var(--cream-2);line-height:1.75;margin-bottom:36px;max-width:400px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:0}
-.hero-trust{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:10px}
-.trust-item{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--cream-2);white-space:nowrap}
+.hero-trust{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}
+.trust-item{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--cream-2);white-space:nowrap}
 .trust-dot{color:rgba(197,139,69,0.4);font-size:14px}
 .trust-item svg{color:var(--gold);flex-shrink:0}
 
